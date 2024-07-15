@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React from 'react'
+import React from 'react';
 
 export default function OnBoardingLayout({children}: {children: any}) {
     const imageSlider = [
@@ -18,27 +18,29 @@ export default function OnBoardingLayout({children}: {children: any}) {
           title: 'third image',
           url: '/team-1.jpg',
         },
-      ];
-      const [current, setCurrent] = React.useState(0);
+    ];
     
-      const bgImgStyle = {
+    const [current, setCurrent] = React.useState(0);
+
+    const bgImgStyle = {
         backgroundImage: `url(${imageSlider[current]?.url})`,
         backgroundPosition: 'center',
         backgroundSize: 'cover',
         height: '100%',
         transition: 'all 1s ease',
-      };
-      console.log(current)
-      React.useEffect(() => {
+    };
+
+    console.log(current);
+
+    React.useEffect(() => {
         const timer = setTimeout(() => {
-          if (current === imageSlider.length - 1) setCurrent(0);
-          else {
-            setCurrent(current + 1);
-          }
-          return () => clearTimeout(timer);
+            setCurrent((prevCurrent) => (prevCurrent === imageSlider.length - 1 ? 0 : prevCurrent + 1));
         }, 3000);
-      }, [current, imageSlider.length]);
-      return (
+
+        return () => clearTimeout(timer);
+    }, [current, imageSlider.length]);
+
+    return (
         <div className="flex h-screen p-6 overflow-hidden">
           <div className="w-[35%] left-0 max-mobile:hidden rounded-[24px]" style={bgImgStyle}>
             <div className="flex flex-col justify-between py-12 rounded-[24px] h-full w-full bg-[#393ECC]/20">
@@ -64,5 +66,5 @@ export default function OnBoardingLayout({children}: {children: any}) {
             </div>
           </div>
         </div>
-      );
-    }
+    );
+}
