@@ -77,7 +77,7 @@ export default function LoginPage() {
           </div>
           <div className="flex justify-center">
             <span className="text-sm">
-              Don't have an account?{" "}
+              Dont have an account?{" "}
               <Link href="/onboarding" className="text-blue-700">
                 Sign up
               </Link>
