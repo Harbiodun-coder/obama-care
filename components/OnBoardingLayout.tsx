@@ -37,7 +37,7 @@ export default function OnBoardingLayout({children}: {children: any}) {
           }
           return () => clearTimeout(timer);
         }, 3000);
-      }, [current]);
+      }, [current, imageSlider.length]);
       return (
         <div className="flex h-screen p-6 overflow-hidden">
           <div className="w-[35%] left-0 max-mobile:hidden rounded-[24px]" style={bgImgStyle}>
