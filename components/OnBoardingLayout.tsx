@@ -41,7 +41,7 @@ export default function OnBoardingLayout({children}: {children: any}) {
       <div className="w-[35%] left-0 max-mobile:hidden rounded-[24px]" style={bgImgStyle}>
         <div className="flex flex-col justify-between py-12 rounded-[24px] h-full w-full bg-[#393ECC]/20">
           <div className="z-[99] top-[48px] left-[42px] pl-10">
-            <Image src="/icons/logo.svg" width={160} height={100} alt="Logo" />
+            <div className="">logo here</div>
           </div>
           <div className="bg-white/20 shadow-black/20 backdrop-blur-[20px] z-[99] rounded-xl bottom-[96px] p-10 mx-2">
             <h2 className="text-white text-2xl font-bold leading-[44px] mb-[16px]">
