@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Telemedicine Platform</title>
+        <title>Obama Care</title>
         <meta name="description" content="A platform for virtual medical consultations" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

@@ -1,11 +1,11 @@
 import React from "react";
+import { FaPhone, FaGlobe, FaUserTag, FaUser, FaEnvelope } from "react-icons/fa";
 import Input from "../Input";
 import { SignUpState } from "@/pages/onboarding";
 import OnBoardingLayout from "../OnBoardingLayout";
 import Button from "../Button";
 import Checkbox from "./checkbox";
 import { GoArrowLeft } from "react-icons/go";
-import { FaUser, FaEnvelope, FaNotesMedical, FaPills, FaAllergies } from "react-icons/fa"
 
 type Step3Props = {
   prev: () => void;
@@ -35,7 +35,7 @@ const Step3: React.FC<Step3Props> = ({ prev, submit, change, state }) => {
             change={change}
             placeholder="Enter your first name"
             readOnly
-            icon={<FaUser className="text-[gray]" />}
+            icon={<FaUser />}
           />
           <Input
             label="Last Name"
@@ -44,7 +44,7 @@ const Step3: React.FC<Step3Props> = ({ prev, submit, change, state }) => {
             change={change}
             placeholder="Enter your last name"
             readOnly
-            icon={<FaUser className="text-[gray]" />}
+            icon={<FaUser />}
           />
           <Input
             label="Email"
@@ -54,34 +54,35 @@ const Step3: React.FC<Step3Props> = ({ prev, submit, change, state }) => {
             change={change}
             placeholder="Enter your email"
             readOnly
-            icon={<FaEnvelope className="text-[gray]" />}
+            icon={<FaEnvelope />}
           />
           <Input
-            label="Medical Condition"
-            name="medical_condition"
-            value={state.medical_condition}
+            label="Country"
+            name="country"
+            value={state.country}
             change={change}
-            placeholder="Enter your medical condition"
+            placeholder="Enter your country"
             readOnly
-            icon={<FaNotesMedical  className="text-[gray]"/>}
+            icon={<FaGlobe />}
           />
           <Input
-            label="Medication"
-            name="medication"
-            value={state.medication}
+            label="Phone"
+            name="phone"
+            type="tel"
+            value={state.phone}
             change={change}
-            placeholder="Enter your medication"
+            placeholder="Enter your phone number"
             readOnly
-            icon={<FaPills  className="text-[gray]"/>}
+            icon={<FaPhone />}
           />
           <Input
-            label="Allergies"
-            name="allergies"
-            value={state.allergies}
+            label="Role"
+            name="role"
+            value={state.role}
             change={change}
-            placeholder="Enter your allergies"
+            placeholder="Enter your role"
             readOnly
-            icon={<FaAllergies className="text-[gray]" />}
+            icon={<FaUserTag />}
           />
           <Checkbox
             name="agree_to_terms"
@@ -89,8 +90,10 @@ const Step3: React.FC<Step3Props> = ({ prev, submit, change, state }) => {
             id="agree_to_terms"
             label="Agree to Terms"
             handleChange={change}
+            
           />
           <div className="flex justify-between mt-4">
+          
             <Button
               intent="primary"
               type="submit"

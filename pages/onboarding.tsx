@@ -9,11 +9,12 @@ export type SignUpState = {
   last_name: string;
   email: string;
   password: string;
-  medical_condition: string;
-  medication: string;
-  allergies: string;
+  phone: string;
+  country: string;
+  role: string;
   agree_to_terms: boolean;
 };
+
 
 const Signup = () => {
   const [currentStep, setCurrentStep] = useState(0);
