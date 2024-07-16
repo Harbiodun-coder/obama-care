@@ -15,11 +15,11 @@ export default function LoginPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic
+    
   };
 
   const handleGoogleLogin = () => {
-    // Handle Google login logic
+    
   };
 
   return (
@@ -65,7 +65,7 @@ export default function LoginPage() {
                 Remember Me
               </label>
             </div>
-            <Link href="/" className="text-blue-700 cursor-pointer">
+            <Link href="/forgotPassword" className="text-blue-700 cursor-pointer">
               Forgot Password?
             </Link>
           </div>

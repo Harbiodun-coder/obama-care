@@ -8,9 +8,9 @@ interface InputProps {
   change: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   placeholder?: string;
   required?: boolean;
-  readOnly?: boolean; 
-  icon?: React.ReactNode; 
-  options?: string[]; 
+  readOnly?: boolean;
+  icon?: React.ReactNode;
+  options?: string[];
 }
 
 const Input: React.FC<InputProps> = ({
@@ -21,7 +21,7 @@ const Input: React.FC<InputProps> = ({
   change,
   placeholder,
   required = false,
-  readOnly = false, 
+  readOnly = false,
   icon,
   options,
 }) => {
@@ -31,7 +31,11 @@ const Input: React.FC<InputProps> = ({
         {label}
       </label>
       <div className="relative">
-        {icon && <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">{icon}</div>}
+        {icon && (
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            {icon}
+          </div>
+        )}
         {options ? (
           <select
             id={name}
@@ -39,8 +43,10 @@ const Input: React.FC<InputProps> = ({
             value={value}
             onChange={change}
             required={required}
-            className={`appearance-none bg-transparent border-none w-full text-gray-700 py-2 px-4 leading-tight focus:outline-none ${icon ? "pl-10" : ""
-              }`}
+            readOnly={readOnly}
+            className={`appearance-none bg-transparent border-none w-full text-gray-700 py-2 px-4 leading-tight focus:outline-none ${
+              icon ? "pl-10" : ""
+            }`}
           >
             <option value="" disabled>
               {placeholder}
@@ -60,9 +66,10 @@ const Input: React.FC<InputProps> = ({
             onChange={change}
             placeholder={placeholder}
             required={required}
-            readOnly={readOnly} 
-            className={`w-full px-4 py-2 text-gray-700 bg-white border rounded-md focus:outline-none focus:ring ${icon ? "pl-10" : ""
-              }`}
+            readOnly={readOnly}
+            className={`w-full px-4 py-3 text-gray-700 bg-white border rounded-md focus:outline-none focus:ring ${
+              icon ? "pl-10" : ""
+            }`}
           />
         )}
       </div>
