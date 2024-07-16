@@ -1,12 +1,12 @@
 import React from "react";
-import { FaPhone, FaGlobe, FaUserTag } from "react-icons/fa";
+import { FaGlobe, FaPhone, FaUserTag } from "react-icons/fa";
 import Input from "../Input";
 import { SignUpState } from "@/pages/onboarding";
 import OnBoardingLayout from "../OnBoardingLayout";
 import Button from "../Button";
-import { countries } from "../countries";
-import { GoArrowLeft } from "react-icons/go";
 
+import { GoArrowLeft } from "react-icons/go";
+import { countries } from "../countries";
 
 type Step2Props = {
   prev: () => void;
@@ -15,9 +15,7 @@ type Step2Props = {
   state: SignUpState;
 };
 
-const Step2: React.FC<Step2Props> = ({ prev, next, change, state }) => {
-  const roles = ["Patient", "Doctor"];
-
+const Step2: React.FC<Step2Props> = ({prev, next, change, state }) => {
   const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedCountry = countries.find(
       (country) => country.name === e.target.value
@@ -44,16 +42,17 @@ const Step2: React.FC<Step2Props> = ({ prev, next, change, state }) => {
                   />
                   <div className="">Go Back</div>
               </div>
-        <h2 className="text-2xl font-bold mb-4">Step 2: Contact Information</h2>
+        <h2 className="text-2xl font-bold mb-4">Step 2: Additional Information</h2>
         <form onSubmit={next}>
           <Input
             label="Country"
             name="country"
             value={state.country}
             change={handleCountryChange}
+            placeholder="Select your country"
+            icon={<FaGlobe />}
             required
             options={countries.map((country) => country.name)}
-            icon={<FaGlobe />}
           />
           <Input
             label="Phone"
@@ -62,19 +61,21 @@ const Step2: React.FC<Step2Props> = ({ prev, next, change, state }) => {
             value={state.phone}
             change={change}
             placeholder="Enter your phone number"
-            required
             icon={<FaPhone />}
+            required
           />
           <Input
             label="Role"
             name="role"
             value={state.role}
             change={change}
-            required
-            options={roles}
+            placeholder="Select your role"
             icon={<FaUserTag />}
+            required
+            options={["Patient", "Doctor"]} 
           />
           <div className="flex justify-between mt-4">
+          
             <Button
               intent="primary"
               type="submit"

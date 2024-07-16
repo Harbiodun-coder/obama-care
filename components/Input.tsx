@@ -1,17 +1,17 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 
-type InputProps = {
+interface InputProps {
   label: string;
   name: string;
   type?: string;
   value: string;
-  change: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  change: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   placeholder?: string;
   required?: boolean;
-  icon?: React.ReactNode;
-  options?: string[];
-  readOnly?: boolean;
-};
+  readOnly?: boolean; 
+  icon?: React.ReactNode; 
+  options?: string[]; 
+}
 
 const Input: React.FC<InputProps> = ({
   label,
@@ -21,28 +21,29 @@ const Input: React.FC<InputProps> = ({
   change,
   placeholder,
   required = false,
-  readOnly = false,
+  readOnly = false, 
   icon,
-  options
+  options,
 }) => {
   return (
-    <div className="mb-4">
-      <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={name}>
+    <div className="flex flex-col mb-4">
+      <label htmlFor={name} className="mb-1 text-sm text-gray-600">
         {label}
       </label>
-      <div className="flex items-center border-b border-gray-300 py-2">
-        {icon && <span className="mr-2 text-gray-500">{icon}</span>}
+      <div className="relative">
+        {icon && <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">{icon}</div>}
         {options ? (
           <select
+            id={name}
             name={name}
             value={value}
             onChange={change}
             required={required}
-            readOnly={readOnly}
-            className="appearance-none bg-transparent border-none w-full text-gray-700 py-1 px-2 leading-tight focus:outline-none"
+            className={`appearance-none bg-transparent border-none w-full text-gray-700 py-2 px-4 leading-tight focus:outline-none ${icon ? "pl-10" : ""
+              }`}
           >
             <option value="" disabled>
-              Select {label.toLowerCase()}
+              {placeholder}
             </option>
             {options.map((option, index) => (
               <option key={index} value={option}>
@@ -52,13 +53,16 @@ const Input: React.FC<InputProps> = ({
           </select>
         ) : (
           <input
-            type={type}
+            id={name}
             name={name}
+            type={type}
             value={value}
             onChange={change}
             placeholder={placeholder}
             required={required}
-            className="appearance-none bg-transparent border-none w-full text-gray-700 py-2 px-3 leading-tight focus:outline-none"
+            readOnly={readOnly} 
+            className={`w-full px-4 py-2 text-gray-700 bg-white border rounded-md focus:outline-none focus:ring ${icon ? "pl-10" : ""
+              }`}
           />
         )}
       </div>
