@@ -24,9 +24,9 @@ const Signup = () => {
     last_name: "",
     email: "",
     password: "",
-    medical_condition: "",
-    medication: "",
-    allergies: "",
+    phone: "",
+    country: "",
+    role: "",
     agree_to_terms: false,
   });
 
