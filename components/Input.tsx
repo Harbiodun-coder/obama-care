@@ -43,7 +43,6 @@ const Input: React.FC<InputProps> = ({
             value={value}
             onChange={change}
             required={required}
-            readOnly={readOnly}
             className={`appearance-none bg-transparent border-none w-full text-gray-700 py-2 px-4 leading-tight focus:outline-none ${
               icon ? "pl-10" : ""
             }`}
