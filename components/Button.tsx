@@ -6,7 +6,7 @@ const buttonStyles = cva("rounded-lg font-bold flex gap-2 w-full disabled:opacit
     variants: {
       intent: {
         primary: "bg-[#393ECC] border-[#393ECC] border text-white hover:bg-white hover:text-[#393ECC] border-[#393ECC]",
-        outline: "bg-transparent border border-[#393ECC] text-[#393ECC] hover:bg-[#393ECC] hover:text-white",
+        outline: "bg-transparent border border-[#393ECC] text-[#393ECC]",
       },
       size: {
         sm: "py-2 px-6 text-base",

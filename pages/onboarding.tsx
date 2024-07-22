@@ -54,11 +54,11 @@ const Signup = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log(state);
-    // Perform the submission logic, e.g., API call
+    
   };
 
   const handleLoginClick = () => {
-    router.push("/login"); // Redirect to the login page
+    router.push("/login");
   };
 
   return (

@@ -3,23 +3,62 @@ import Link from "next/link";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import OnBoardingLayout from "@/components/OnBoardingLayout";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/router";
+// import GoogleLoginButton from "@/components/GoogleLoginButton"; 
+
+const LOGIN = "/api/login";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
+  const [error, setError] = useState(""); 
+  const router = useRouter();
 
-  const handleEmailChange = (e) => setEmail(e.target.value);
-  const handlePasswordChange = (e) => setPassword(e.target.value);
-  const handleRememberMeChange = (e) => setRememberMe(e.target.checked);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
+  const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
   };
 
-  const handleGoogleLogin = () => {
-    
+  const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
+  const mutation = useMutation({
+    mutationFn: async () => {
+      const response = await fetch(LOGIN, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to log in");
+      }
+      return response.json();
+    },
+    onSuccess: (data: any) => {
+      console.log("Login successful:", data);
+      localStorage.setItem("token", data.token); 
+      
+      if (data.role === "patient") {
+        router.push("/patient-dashboard");
+      } else if (data.role === "doctor") {
+        router.push("/doctor-dashboard");
+      } else {
+        router.push("/dashboard");
+      }
+    },
+    onError: (error: any) => {
+      console.error("Error logging in:", error);
+      setError("Failed to log in. Please check your credentials and try again.");
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError(""); 
+    mutation.mutate();
   };
 
   return (
@@ -40,40 +79,28 @@ export default function LoginPage() {
               name="email"
               type="email"
               placeholder="example@gmail.com"
-              change={handleEmailChange}
               value={email}
+              change={handleChangeEmail}
             />
             <Input
               label="Password"
               name="password"
               type="password"
               placeholder="***********"
-              change={handlePasswordChange}
               value={password}
+              change={handleChangePassword}
             />
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center py-4">
-              <input
-                type="checkbox"
-                id="myCheckbox"
-                className="w-5 h-4 border-black rounded"
-                checked={rememberMe}
-                onChange={handleRememberMeChange}
-              />
-              <label htmlFor="myCheckbox" className="ml-2">
-                Remember Me
-              </label>
-            </div>
-            <Link href="/forgotPassword" className="text-blue-700 cursor-pointer">
-              Forgot Password?
-            </Link>
+            {error && (
+              <div className="text-red-500 text-sm mt-1">
+                {error}
+              </div>
+            )}
           </div>
           <div className="w-full">
-            <Button intent="primary" size="bg" text="Sign in" isLoading={false} />
+            <Button intent="primary" size="bg" text="Sign in" isLoading={false} type="submit" />
           </div>
           <div className="flex justify-center py-4">
-            <Button intent="primary" size="bg" text="Login with Google" isLoading={false} />
+            {/* <GoogleLoginButton /> */}
           </div>
           <div className="flex justify-center">
             <span className="text-sm">
