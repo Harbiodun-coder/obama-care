@@ -24,23 +24,23 @@ export default function Sidebar({
     {
       icon: <RxDashboard />,
       name: "Dashboard",
-      path: `/dashboard`,
+      path: `/dashboard/doctor`,
     },
 
     {
       icon: <FaList />,
       name: "Appointments",
-      path: `/appointment`,
+      path: `/doctor/appointment`,
     },
     {
       icon: <HiOutlineUsers />,
       name: "Patients",
-      path: `/patients`,
+      path: `/doctor/patients`,
     },
     {
       icon: <IoPersonCircleOutline />,
       name: "Profile",
-      path: `/Profile`,
+      path: `/doctor/Profile`,
     },
    
    

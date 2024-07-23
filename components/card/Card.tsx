@@ -31,12 +31,12 @@ export default function Card({ intent = "patients", text, number }: InputProps) 
 
   return (
     <div>
-      <div className="bg-white-100 text-center p-1 shadow cursor-pointer border border-[#EDEDED] rounded-lg flex md:gap-4 gap-1 items-center md:pl-5 text-xs md:text-lg">
+      <div className="bg-white-100 text-center p-1 shadow cursor-pointer border border-[#EDEDED] rounded-lg flex md:gap-4 gap-[1px] items-center md:pl-5 text-xs md:text-lg">
         <div className={`${inputStyles({ intent })}`}>
           {icon}
         </div>
         <div>
-          <div className="font-medium text-[10px] md:text-base text-[#BABABA]">
+          <div className="font-medium text-[7px] md:text-base text-[#BABABA]">
             {text}
           </div>
           <div className="font-semibold text-xl md:text-4xl">

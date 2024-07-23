@@ -10,26 +10,26 @@ type ModalProps = {
 const Modal: React.FC<ModalProps> = ({ action, children, open }) => {
   return (
     <div
-      className={`modal-background h-full max-h-screen w-full bg-[#00000080] bg-opacity-40 left-0 top-0 justify-center items-center ${
+      className={`modal-background h-full w-full bg-[#00000080] bg-opacity-40 left-0 top-0 justify-center items-center ${
         open ? "flex" : "hidden"
       } flex-col text-center absolute z-[1000]`}
       onClick={() => action(false)}
     >
-      <div className="flex flex-col justify-center md:w-full md:h-full ">
+      <div className="relative flex flex-col justify-center w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
         <div
-          className={`bg-white-100 rounded-2xl max-h-[calc(100vh-100px)] relative ${
+          className={`bg-white rounded-2xl max-h-[calc(100vh-100px)] relative ${
             open ? "overflow-auto" : "overflow-hidden"
-          } w-full mx-auto md:mx-[25%] md:max-w-[768px] max-h-full md:max-h-[768px] `}
+          } w-full mx-auto`}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="gap-5 bg-white items-center rounded-xl">
+          <div className="relative bg-white rounded-2xl shadow-lg">
             <div
               onClick={() => action(false)}
-              className="flex justify-end hover:cursor-pointer absolute top-4 right-4"
+              className="absolute top-4 right-4 cursor-pointer p-2 hover:bg-gray-200 rounded-full"
             >
-              <IoClose  className="h-8 w-8 pb-[8px]"/>
+              <IoClose className="h-6 w-6" />
             </div>
-            <div className="p-5 sm:p-6 md:p-6  ">
+            <div className="p-4 sm:p-6 md:p-8 lg:p-10">
               {children}
             </div>
           </div>
