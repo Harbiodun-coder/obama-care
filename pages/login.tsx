@@ -14,54 +14,57 @@ export default function LoginPage() {
   const router = useRouter();
 
   
-  const API_URL = `https://obamacare.onrender.com/login`;
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setLoading(true);
-
+  
     const loginDetails = {
       email,
       password
     };
-
+  
     try {
-      const response = await fetch(API_URL, {
-        method: "POST",
+      const response = await fetch('/api/login', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json"
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(loginDetails)
+        body: JSON.stringify(loginDetails),
       });
 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error('Network response was not ok');
       }
 
       const data = await response.json();
 
-     
-      const user = data.users.find(u => u.email === loginDetails.email && u.password === loginDetails.password);
-      if (user) {
-        console.log('Login successful:', user);
+      
+      const { email, role, jwt_token } = data.data; 
+      console.log(jwt_token)
+      localStorage.setItem('token', jwt_token)
 
-        if (user.role === 'doctor') {
-          router.push("/dashboard/doctor");
-        } else if (user.role === 'patient') {
-          router.push("/dashboard/patient");
-        } else {
-          setError("Unknown user role");
-        }
+      
+      if (!email || !role) {
+        throw new Error('Invalid response data');
+      }
+       
+      
+      if (role === 'doctor') {
+        router.push('/dashboard/doctor');
+      } else if (role === 'patient') {
+        router.push('/dashboard/patient');
       } else {
-        setError("Invalid email or password");
+        setError('Unknown User ');
       }
     } catch (error) {
-      console.error('Error:', error);
-      setError("User not found");
+      console.error('Login failed:', error);
+      setError('Invalid email or password');
     } finally {
       setLoading(false);
     }
   };
+  
 
   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
