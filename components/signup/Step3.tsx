@@ -1,9 +1,9 @@
 import React from "react";
 import { FaPhone, FaGlobe, FaUserTag, FaUser, FaEnvelope } from "react-icons/fa";
-import Input from "../Input";
+import Input from "../shared/Input";
 import { SignUpState } from "@/pages/onboarding";
-import OnBoardingLayout from "../OnBoardingLayout";
-import Button from "../Button";
+import OnBoardingLayout from "../layout/OnBoardingLayout";
+import Button from "../shared/Button";
 import Checkbox from "./checkbox";
 import { GoArrowLeft } from "react-icons/go";
 import { useMutation } from "@tanstack/react-query";

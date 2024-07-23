@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import Input from "../Input";
+import Input from "../shared/Input";
 import { SignUpState } from "@/pages/onboarding";
-import OnBoardingLayout from "../OnBoardingLayout";
-import Button from "../Button";
+import OnBoardingLayout from "../layout/OnBoardingLayout";
+import Button from "../shared/Button";
 
 import { FaUser, FaEnvelope, FaLock, FaNotesMedical, FaPills, FaAllergies } from "react-icons/fa"
 import { GoArrowLeft } from "react-icons/go";
-import GoogleLoginButton from "../GoogleLogin";
+import GoogleLoginButton from "../shared/GoogleLogin";
 
 type Step2Props = {
   prev: () => void;

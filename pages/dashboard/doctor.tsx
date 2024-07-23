@@ -1,7 +1,7 @@
 import React from 'react';
 import Cards from '@/components/card/Cards';
 
-import Layout from '@/components/DoctorLayout';
+import Layout from '@/components/layout/DoctorLayout';
 import NewAppointmentsCard from '@/components/card/NewAppointments';
 import UpcomingAppointmentsCard from '@/components/card/UpcomingAppointments';
 

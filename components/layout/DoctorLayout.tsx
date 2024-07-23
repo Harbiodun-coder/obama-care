@@ -4,10 +4,10 @@ import { CiSearch } from "react-icons/ci";
 import { IoMdNotificationsOutline } from "react-icons/io";
 
 import { useRouter } from "next/router";
-import Button from "./Button";
+import Button from "../shared/Button";
 
-import Modal from "./Modal";
-import Hamburger from "./Hamburger";
+import Modal from "../shared/Modal";
+import Hamburger from "../Hamburger";
 
 
 const Layout = ({ children }) => {

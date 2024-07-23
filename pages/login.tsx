@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import Button from "@/components/Button";
-import Input from "@/components/Input";
-import OnBoardingLayout from "@/components/OnBoardingLayout";
+import Button from "@/components/shared/Button";
+import Input from "@/components/shared/Input";
+import OnBoardingLayout from "@/components/layout/OnBoardingLayout";
 import { useRouter } from "next/router";
-import GoogleLoginButton from "@/components/GoogleLogin";
+import GoogleLoginButton from "@/components/shared/GoogleLogin";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");

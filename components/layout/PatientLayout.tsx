@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import Button from "./Button";
 
 import Modal from "./Modal";
-import Hamburger2 from "./Hamburger2";
+import Hamburger2 from "./layout/Hamburger2";
 
 
 

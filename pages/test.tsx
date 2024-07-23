@@ -1,6 +1,6 @@
 
 import Cards from '@/components/card/Cards'
-import Layout from '@/components/DoctorLayout'
+import Layout from '@/components/layout/DoctorLayout'
 import React from 'react'
 
 

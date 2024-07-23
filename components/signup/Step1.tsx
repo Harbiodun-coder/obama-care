@@ -1,12 +1,12 @@
 import React from "react";
 import { FaGlobe, FaPhone, FaUserTag } from "react-icons/fa";
-import Input from "../Input";
+import Input from "../shared/Input";
 import { SignUpState } from "@/pages/onboarding";
-import OnBoardingLayout from "../OnBoardingLayout";
-import Button from "../Button";
+import OnBoardingLayout from "../layout/OnBoardingLayout";
+import Button from "../shared/Button";
 
 import { GoArrowLeft } from "react-icons/go";
-import { countries } from "../countries";
+import { countries } from "../shared/countries";
 import { useRouter } from "next/router";
 
 type Step1Props = {

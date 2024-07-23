@@ -1,6 +1,6 @@
-import Button from '@/components/Button';
-import Input from '@/components/Input';
-import OnBoardingLayout from '@/components/OnBoardingLayout';
+import Button from '@/components/shared/Button';
+import Input from '@/components/shared/Input';
+import OnBoardingLayout from '@/components/layout/OnBoardingLayout';
 import React from 'react';
 import { useRouter } from 'next/router';
 

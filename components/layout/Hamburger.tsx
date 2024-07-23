@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { MdMenu, MdClose } from 'react-icons/md';
-import Sidebar from './DoctorSidebar';
+import Sidebar from './layout/DoctorSidebar';
 
 
 const Hamburger = ({ logout}:{logout:any}) => {

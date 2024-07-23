@@ -40,7 +40,7 @@ export default function Sidebar({
     {
       icon: <IoPersonCircleOutline />,
       name: "Profile",
-      path: `/doctor/Profile`,
+      path: `/doctor/profile`,
     },
    
    
