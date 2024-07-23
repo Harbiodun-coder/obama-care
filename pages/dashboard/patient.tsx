@@ -1,8 +1,8 @@
 import React from 'react';
 import Cards from '@/components/card/Cards';
-import Layout from '@/components/PatientLayout';
 import NewAppointmentsCard from '@/components/card/NewAppointments';
 import UpcomingAppointmentsCard from '@/components/card/UpcomingAppointments';
+import Layout from '@/components/layout/PatientLayout';
 
 const appointments = [
   { patientName: 'SAMUEL BONU', date: '2024-07-25', time: '10:00 AM' },

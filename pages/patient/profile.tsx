@@ -1,4 +1,4 @@
-import Layout from '@/components/PatientLayout'
+import Layout from '@/components/layout/PatientLayout'
 import React from 'react'
 
 export default function profile() {
