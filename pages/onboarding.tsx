@@ -18,7 +18,6 @@ export type SignUpState = {
 
 const Signup = () => {
   const [currentStep, setCurrentStep] = useState(0);
-  const router = useRouter();
   const [state, setState] = useState<SignUpState>({
     first_name: "",
     last_name: "",
@@ -57,9 +56,7 @@ const Signup = () => {
     
   };
 
-  const handleLoginClick = () => {
-    router.push("/login");
-  };
+  
 
   return (
     <div className="p-0 h-fit">

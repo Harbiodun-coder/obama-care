@@ -3,17 +3,51 @@ import Link from "next/link";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import OnBoardingLayout from "@/components/OnBoardingLayout";
-import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-// import GoogleLoginButton from "@/components/GoogleLoginButton"; 
-
-const LOGIN = "/api/login";
+import GoogleLoginButton from "@/components/GoogleLogin";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(""); 
+  const [loading, setLoading] = useState(false); // Add loading state
   const router = useRouter();
+
+  
+  const MOCK_API_URL = `/mockUserData.json`;
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setLoading(true); 
+
+    const loginDetails = {
+      email,
+      password
+    };
+
+    try {
+      const response = await fetch(MOCK_API_URL);
+      const data = await response.json();
+      
+      const user = data.users.find(u => u.email === loginDetails.email && u.password === loginDetails.password);
+      if (user) {
+        console.log('Login successful:', user);
+        
+        if (user.role === 'doctor') {
+          router.push("/dashboard/doctor"); 
+        } else if (user.role === 'patient') {
+          router.push("/dashboard/patient"); 
+        } else {
+          setError("Unknown user role");
+        }
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setError("Failed to load mock data");
+    } finally {
+      setLoading(false); 
+    }
+  };
 
   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -21,44 +55,6 @@ export default function LoginPage() {
 
   const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
-  };
-
-  const mutation = useMutation({
-    mutationFn: async () => {
-      const response = await fetch(LOGIN, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to log in");
-      }
-      return response.json();
-    },
-    onSuccess: (data: any) => {
-      console.log("Login successful:", data);
-      localStorage.setItem("token", data.token); 
-      
-      if (data.role === "patient") {
-        router.push("/patient-dashboard");
-      } else if (data.role === "doctor") {
-        router.push("/doctor-dashboard");
-      } else {
-        router.push("/dashboard");
-      }
-    },
-    onError: (error: any) => {
-      console.error("Error logging in:", error);
-      setError("Failed to log in. Please check your credentials and try again.");
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError(""); 
-    mutation.mutate();
   };
 
   return (
@@ -97,10 +93,16 @@ export default function LoginPage() {
             )}
           </div>
           <div className="w-full">
-            <Button intent="primary" size="bg" text="Sign in" isLoading={false} type="submit" />
+            <Button 
+              intent="primary" 
+              size="bg" 
+              text={loading ? "Signing in..." : "Sign in"} 
+              isLoading={loading} 
+              type="submit" 
+            />
           </div>
           <div className="flex justify-center py-4">
-            {/* <GoogleLoginButton /> */}
+            <GoogleLoginButton />
           </div>
           <div className="flex justify-center">
             <span className="text-sm">

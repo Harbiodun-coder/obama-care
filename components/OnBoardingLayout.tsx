@@ -1,7 +1,6 @@
-import Image from 'next/image';
-import React from 'react'
+import React from 'react';
 
-export default function OnBoardingLayout({children}: {children: any}) {
+export default function OnBoardingLayout({ children }: { children: any }) {
   const imageSlider = [
     {
       id: 1,
@@ -38,7 +37,7 @@ export default function OnBoardingLayout({children}: {children: any}) {
 
   return (
     <div className="flex h-screen p-6 overflow-hidden">
-      <div className="w-[35%] left-0 max-mobile:hidden rounded-[24px]" style={bgImgStyle}>
+      <div className="hidden lg:flex lg:w-[35%] left-0 rounded-[24px]" style={bgImgStyle}>
         <div className="flex flex-col justify-between py-12 rounded-[24px] h-full w-full bg-[#393ECC]/20">
           <div className="z-[99] top-[48px] left-[42px] pl-10">
             <div className="">logo here</div>
@@ -56,8 +55,8 @@ export default function OnBoardingLayout({children}: {children: any}) {
           </div>
         </div>
       </div>
-      <div className="max-mobile:w-full w-[65%] md:py-10 flex flex-col items-center">
-        <div className="w-full max-w-[550px] max-mobile:w-full md:h-[calc(100vh-64px)] xl:h-[calc(100vh-156px)] overflow-auto">
+      <div className="w-full lg:w-[65%] md:py-10 flex flex-col items-center">
+        <div className="w-full max-w-[550px] md:h-[calc(100vh-64px)] xl:h-[calc(100vh-156px)] overflow-auto">
           {children}
         </div>
       </div>
