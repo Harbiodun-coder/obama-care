@@ -10,15 +10,15 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(""); 
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false); 
   const router = useRouter();
 
   
-  const MOCK_API_URL = `/mockUserData.json`;
+  const API_URL = `https://obamacare.onrender.com/login`;
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    setLoading(true); 
+    setLoading(true);
 
     const loginDetails = {
       email,
@@ -26,26 +26,40 @@ export default function LoginPage() {
     };
 
     try {
-      const response = await fetch(MOCK_API_URL);
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(loginDetails)
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
       const data = await response.json();
-      
+
+     
       const user = data.users.find(u => u.email === loginDetails.email && u.password === loginDetails.password);
       if (user) {
         console.log('Login successful:', user);
-        
+
         if (user.role === 'doctor') {
-          router.push("/dashboard/doctor"); 
+          router.push("/dashboard/doctor");
         } else if (user.role === 'patient') {
-          router.push("/dashboard/patient"); 
+          router.push("/dashboard/patient");
         } else {
           setError("Unknown user role");
         }
+      } else {
+        setError("Invalid email or password");
       }
     } catch (error) {
       console.error('Error:', error);
-      setError("Failed to load mock data");
+      setError("User not found");
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
