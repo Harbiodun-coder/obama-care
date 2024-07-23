@@ -7,7 +7,8 @@ import { useRouter } from "next/router";
 import Button from "../shared/Button";
 
 import Modal from "../shared/Modal";
-import Hamburger from "../Hamburger";
+import Hamburger from "./Hamburger";
+
 
 
 const Layout = ({ children }) => {
