@@ -4,10 +4,9 @@ import { CiSearch } from "react-icons/ci";
 import { IoMdNotificationsOutline } from "react-icons/io";
 
 import { useRouter } from "next/router";
-import Button from "./Button";
-
-import Modal from "./Modal";
-import Hamburger2 from "./layout/Hamburger2";
+import Button from "../shared/Button";
+import Hamburger2 from "./Hamburger2";
+import Modal from "../shared/Modal";
 
 
 
