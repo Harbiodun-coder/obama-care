@@ -6,7 +6,7 @@ import OnBoardingLayout from "../layout/OnBoardingLayout";
 import Button from "../shared/Button";
 import Checkbox from "./checkbox";
 import { GoArrowLeft } from "react-icons/go";
-import { useMutation } from "@tanstack/react-query";
+
 import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -21,35 +21,33 @@ type Step3Props = {
 const Step3: React.FC<Step3Props> = ({ prev, submit, change, state }) => {
   const router = useRouter();
 
-  const mutation = useMutation({
-    mutationFn: async () => {
-      // Simulate a delay to mimic an API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+ 
+     
 
-      // Dummy response for account creation
-      const dummyResponse = {
-        message: "Account created successfully",
-      };
-
-      if (!state.email || !state.password) {
-        throw new Error("Failed to create account");
-      }
-      return dummyResponse;
-    },
-    onSuccess: (data: any) => {
-      toast.success(data.message);
-      setTimeout(() => {
-        router.push("/login");
-      }, 1500); 
-    },
-    onError: (error: any) => {
-      toast.error("Failed to create account. Please try again.");
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    mutation.mutate();
+    try {
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(state),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json(); 
+        throw new Error(errorData.error || 'Failed to sign up');
+      }
+  
+      router.push('/login')
+      toast.success('signup successful')
+      console.log('User signed up successfully');
+    } catch (error) {
+      console.error('Error signing up:', error);
+      toast.error(error.message || 'Signup failed. Please try again.');
+    }
+    
   };
 
   return (
