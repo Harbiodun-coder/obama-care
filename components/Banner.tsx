@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 const Banner = () => {
@@ -21,9 +22,9 @@ const Banner = () => {
              the hassle of long-distance travel.
             </p>
             <div className="mt-6">
-              <a href="/onboarding" className=" bg-[blue] text-white p-4 rounded mr-4 ">
+              <Link href="/onboarding" className=" bg-[blue] text-white p-4 rounded mr-4 ">
                 Get Started
-              </a>
+              </Link>
               <a href="" className=" bg-gray-200 text-gray-800 p-4 rounded">
                 Learn More
               </a>
