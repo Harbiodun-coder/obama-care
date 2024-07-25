@@ -8,7 +8,7 @@ export default function Header() {
   };
 
   return (
-    <div className="fixed w-full bg-white shadow-lg z-10 pt-7 items-center">
+    <div className="fixed w-full bg-white top-0 left-0 shadow-lg z-50 pt-7 items-center">
       <div className="flex justify-between text-sm py-2 gap-5 px-4 h-15 items-center">
         <div className="">LOGO HERE</div>
         <div className="hidden md:flex">
@@ -21,7 +21,7 @@ export default function Header() {
           </ul>
         </div>
         <div className="md:hidden">
-          <button onClick={toggleMenu} className="focus:outline-none">
+          <button onClick={toggleMenu} className="focus:outline-none text-[blue]">
             <svg
               className="w-6 h-6"
               fill="none"

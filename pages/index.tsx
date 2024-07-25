@@ -7,6 +7,10 @@ import AboutArea from '@/components/AboutArea';
 import TeamArea from '@/components/TeamArea';
 import TestimonialItem from '@/components/TestimonialItem';
 import Hotline from '@/components/Hotline';
+import BlogArea from '@/components/BlogArea';
+import BrandArea from '@/components/BrandArea';
+import Footer from '@/components/Footer';
+import AppointmentSection from '@/components/Appointment';
 
 
 export default function Home() {
@@ -25,8 +29,12 @@ export default function Home() {
       <ServiceArea />
       <AboutArea />
       <TeamArea />
+      <AppointmentSection />
      <TestimonialItem />
      <Hotline />
+     <BlogArea />
+     <BrandArea />
+     <Footer />
      
     </>
   );
