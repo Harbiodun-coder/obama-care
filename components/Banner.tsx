@@ -14,7 +14,7 @@ const Banner = () => {
             <p className="md:mt-4 md:text-gray-600 md:text-xl text-sm pt-2">
             Get access to a wider network of specialists, 
             <br />
-            even if they aren't located nearby. 
+            even if they are not located nearby. 
             <br />
             Receive expert advice and treatment plans without
             <br />

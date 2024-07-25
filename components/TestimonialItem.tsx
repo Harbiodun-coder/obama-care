@@ -16,7 +16,7 @@ const TestimonialItem = () => {
         </div>
         <div className="testi_item_content text-center">
           <p className="text-gray-700 mb-4">
-            “ Saw kind fruitful itself in man. All in life good wherein beginning their he air That, the saw very years created for seed have without. Can't him fowl his can not ready for game”
+            “ Saw kind fruitful itself in man. All in life good wherein beginning their he air That, the saw very years created for seed have without. Cant him fowl his can not ready for game”
           </p>
           <h4 className="text-lg font-semibold text-gray-900">
             - Dr. Suzanne Holroyd -
