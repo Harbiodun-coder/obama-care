@@ -27,7 +27,7 @@ const Layout = ({ children }) => {
   return (
     <div className="flex h-screen overflow-hidden ">
       <div className="md:w-1/4  ">
-        <Hamburger logout={() => setOpen(true)}  />
+        <Hamburger   />
       </div>
 
       <div className="w-full overflow-y-scroll bg-white-100">
