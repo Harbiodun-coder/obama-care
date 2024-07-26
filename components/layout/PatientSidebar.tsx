@@ -6,17 +6,29 @@ import { HiOutlineUsers } from "react-icons/hi";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { RxDashboard } from "react-icons/rx";
 import { CiLogout } from "react-icons/ci";
+import Swal from "sweetalert2";
 
 
-export default function Sidebar({
-  logout,
- 
-}: {
-  logout: any;
- 
-}) {
+export default function Sidebar() {
   const router = useRouter()
-  
+  const handleLogout = () => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to log out?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, log out!',
+      cancelButtonText: 'No, cancel'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
+        router.push('/login'); 
+      }
+    });
+  };
  
 
   
@@ -70,7 +82,7 @@ export default function Sidebar({
       <div>
         <button
           className="flex gap-2 text-white w-full font-medium items-center hover:bg-white hover:text-[#0065C2] p-3 rounded-lg hover:bg-white-100 "
-          onClick={logout}
+          onClick={handleLogout}
         >
           <p className="text-2xl">
             <CiLogout />

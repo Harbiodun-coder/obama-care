@@ -1,0 +1,54 @@
+{
+  "attended": [
+    {
+      "patient": "Samuel Nnamdi Jim",
+      "date": "2024-07-26",
+      "time": "10:00 AM",
+      "status": "Attended"
+    },
+    {
+      "patient": "Matthew",
+      "date": "2024-07-25",
+      "time": "02:00 PM",
+      "status": "Attended"
+    },
+    {
+      "patient": "Jim",
+      "date": "2024-07-25",
+      "time": "02:00 PM",
+      "status": "Attended"
+    },
+    {
+      "patient": "Rodney",
+      "date": "2024-07-25",
+      "time": "02:00 PM",
+      "status": "Attended"
+    }
+  ],
+  "nonAttended": [
+    {
+      "patient": "Samuel",
+      "date": "2024-07-24",
+      "time": "11:00 AM",
+      "status": "Not Attended"
+    },
+    {
+      "patient": "Matthew",
+      "date": "2024-07-23",
+      "time": "01:00 PM",
+      "status": "Not Attended"
+    },
+    {
+      "patient": "Jim",
+      "date": "2024-07-23",
+      "time": "01:00 PM",
+      "status": "Not Attended"
+    },
+    {
+      "patient": "Rodney",
+      "date": "2024-07-23",
+      "time": "01:00 PM",
+      "status": "Not Attended"
+    }
+  ]
+}

@@ -1,15 +1,9 @@
 {
-    "users": [
-      {
-        "email": "matthewabiodun2001@gmail.com",
-        "password": "doctor123",
-        "role": "doctor"
-      },
-      {
-        "email": "matthewabiodun2001@gmail.com",
-        "password": "patient123",
-        "role": "patient"
-      }
-    ]
+  "profile": {
+    "firstName": "Matthew",
+    "lastName": "Francis",
+    "email": "matthew@example.com",
+    "phone": "+1234567890",
+    "specialty": "Cardiology"
   }
-  
+}
