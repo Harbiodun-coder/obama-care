@@ -4,7 +4,7 @@ import Sidebar from './DoctorSidebar';
 
 
 
-const Hamburger = ({ logout}:{logout:any}) => {
+const Hamburger = () => {
   const [open, setOpen] = useState(false);
   return (
     <div>
@@ -12,10 +12,10 @@ const Hamburger = ({ logout}:{logout:any}) => {
         {open ? <MdClose /> : <MdMenu />}
       </div>
       <nav className="hidden md:flex">
-        <Sidebar logout={logout} />
+        <Sidebar />
            </nav>
       <nav className={`lg:hidden ${open ? 'block' : 'hidden'}`}>
-        <Sidebar logout={logout} />
+        <Sidebar  />
           </nav>
     </div>
   );
