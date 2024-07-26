@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaPhone, FaGlobe, FaUserTag, FaUser, FaEnvelope } from "react-icons/fa";
 import Input from "../shared/Input";
 import { SignUpState } from "@/pages/onboarding";
@@ -8,8 +8,7 @@ import Checkbox from "./checkbox";
 import { GoArrowLeft } from "react-icons/go";
 
 import { useRouter } from "next/router";
-import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import swal from 'sweetalert';
 
 type Step3Props = {
   prev: () => void;
@@ -20,9 +19,7 @@ type Step3Props = {
 
 const Step3: React.FC<Step3Props> = ({ prev, submit, change, state }) => {
   const router = useRouter();
-
- 
-     
+  const [error, setError] = useState(""); 
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -34,20 +31,24 @@ const Step3: React.FC<Step3Props> = ({ prev, submit, change, state }) => {
         },
         body: JSON.stringify(state),
       });
-  
+
       if (!response.ok) {
-        const errorData = await response.json(); 
-        throw new Error(errorData.error || 'Failed to sign up');
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          const errorData = await response.json();
+          throw new Error(errorData.err || 'Failed to sign up');
+        } else {
+          throw new Error('An unexpected error occurred');
+        }
       }
-  
-      router.push('/login')
-      toast.success('signup successful')
-      console.log('User signed up successfully');
-    } catch (error) {
+
+      swal('Success', 'Signup successful', 'success');
+      router.push('/login');
+    } catch (error: any) {
       console.error('Error signing up:', error);
-      toast.error(error.message || 'Signup failed. Please try again.');
+      setError(error.message || 'Signup failed. Please try again.');
+      swal('Error', error.message || 'Signup failed. Please try again.', 'error');
     }
-    
   };
 
   return (
@@ -137,7 +138,6 @@ const Step3: React.FC<Step3Props> = ({ prev, submit, change, state }) => {
           </div>
         </form>
       </div>
-      <ToastContainer />
     </OnBoardingLayout>
   );
 };

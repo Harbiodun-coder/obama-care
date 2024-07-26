@@ -3,8 +3,7 @@ import Input from "../shared/Input";
 import { SignUpState } from "@/pages/onboarding";
 import OnBoardingLayout from "../layout/OnBoardingLayout";
 import Button from "../shared/Button";
-
-import { FaUser, FaEnvelope, FaLock, FaNotesMedical, FaPills, FaAllergies } from "react-icons/fa"
+import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 import { GoArrowLeft } from "react-icons/go";
 import GoogleLoginButton from "../shared/GoogleLogin";
 
@@ -16,8 +15,17 @@ type Step2Props = {
 };
 
 const Step2: React.FC<Step2Props> = ({ prev, next, change, state }) => {
-  
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  const validatePasswordStrength = (password: string) => {
+    const errors: string[] = [];
+    if (password.length < 8) errors.push("Password must be at least 8 characters long");
+    if (!/[A-Z]/.test(password)) errors.push("Password must contain at least one uppercase letter");
+    if (!/[a-z]/.test(password)) errors.push("Password must contain at least one lowercase letter");
+    if (!/[0-9]/.test(password)) errors.push("Password must contain at least one number");
+    if (!/[!@#$%^&*]/.test(password)) errors.push("Password must contain at least one special character");
+    return errors;
+  };
 
   const handleNextStep = (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,7 +34,9 @@ const Step2: React.FC<Step2Props> = ({ prev, next, change, state }) => {
     if (!state.first_name) newErrors.first_name = "First name is required";
     if (!state.last_name) newErrors.last_name = "Last name is required";
     if (!state.email) newErrors.email = "Email is required";
-    if (!state.password) newErrors.password = "Password is required";
+
+    const passwordErrors = validatePasswordStrength(state.password);
+    if (passwordErrors.length > 0) newErrors.password = passwordErrors.join(", ");
 
     setErrors(newErrors);
 
@@ -38,15 +48,13 @@ const Step2: React.FC<Step2Props> = ({ prev, next, change, state }) => {
   return (
     <OnBoardingLayout>
       <div className="p-4">
-      <div className="flex p-4 gap-4">
-            
-            <GoArrowLeft 
-                    onClick={prev}
-                    className="text-gray-600 cursor-pointer text-2xl hover:text-gray-700"
-                  />
-                  <div className="">Go Back</div>
-              </div>
-
+        <div className="flex p-4 gap-4">
+          <GoArrowLeft
+            onClick={prev}
+            className="text-gray-600 cursor-pointer text-2xl hover:text-gray-700"
+          />
+          <div>Go Back</div>
+        </div>
         <form onSubmit={handleNextStep}>
           <Input
             label="First Name"
@@ -90,6 +98,7 @@ const Step2: React.FC<Step2Props> = ({ prev, next, change, state }) => {
             icon = {<FaLock className="text-[gray]" />}
           />
           {errors.password && <p className="text-red-500">{errors.password}</p>}
+          
           <div className="mt-4 items-center">
             <Button
               intent="primary"
@@ -98,11 +107,9 @@ const Step2: React.FC<Step2Props> = ({ prev, next, change, state }) => {
               size="bg"
               text="Next"
               isLoading={false}
-
             />
           </div>
-          
-          <div className="flex  py-4 justify-between">
+          <div className="flex py-4 justify-between">
             <div className="border flex flex-col"></div>
             <span>OR</span>
             <div className="border border-b"></div>

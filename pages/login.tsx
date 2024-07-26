@@ -5,15 +5,13 @@ import Input from "@/components/shared/Input";
 import OnBoardingLayout from "@/components/layout/OnBoardingLayout";
 import { useRouter } from "next/router";
 import GoogleLoginButton from "@/components/shared/GoogleLogin";
+import Swal from 'sweetalert2';
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(""); 
   const [loading, setLoading] = useState(false); 
   const router = useRouter();
-
-  
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -36,35 +34,46 @@ export default function LoginPage() {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-
+      
       const data = await response.json();
-
-      
       const { email, role, jwt_token } = data.data; 
-      console.log(jwt_token)
-      localStorage.setItem('token', jwt_token)
-
       
+      localStorage.setItem('token', jwt_token);
+
       if (!email || !role) {
         throw new Error('Invalid response data');
       }
        
-      
+      Swal.fire({
+        title: 'Success',
+        text: 'Login successful!',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
+
       if (role === 'doctor') {
         router.push('/dashboard/doctor');
       } else if (role === 'patient') {
         router.push('/dashboard/patient');
       } else {
-        setError('Unknown User ');
+        Swal.fire({
+          title: 'Error',
+          text: 'Unknown user role',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
       }
     } catch (error) {
-      console.error('Login failed:', error);
-      setError('Invalid email or password');
+      Swal.fire({
+        title: 'Error',
+        text: 'Invalid email or password',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
     } finally {
       setLoading(false);
     }
   };
-  
 
   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -76,13 +85,13 @@ export default function LoginPage() {
 
   return (
     <OnBoardingLayout>
-      <form onSubmit={handleSubmit}>
-        <div className="px-5">
+      <div className="">
+        <form onSubmit={handleSubmit} className=" w-full h-screen bg-white p-6 rounded-lg min-h-screen ">
           <div className="flex flex-col gap-2 py-3">
-            <div className="text-3xl font-bold text-blue-800">
+            <div className="md:text-3xl text-[18px] font-bold text-[#0065C2] text-center">
               Welcome back to Obama Care
             </div>
-            <div className="text-sm text-gray-300">
+            <div className="text-sm text-gray-300 text-center">
               Welcome back, we missed you
             </div>
           </div>
@@ -103,13 +112,8 @@ export default function LoginPage() {
               value={password}
               change={handleChangePassword}
             />
-            {error && (
-              <div className="text-red-500 text-sm mt-1">
-                {error}
-              </div>
-            )}
           </div>
-          <div className="w-full">
+          <div className="w-full mt-4">
             <Button 
               intent="primary" 
               size="bg" 
@@ -129,8 +133,8 @@ export default function LoginPage() {
               </Link>
             </span>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </OnBoardingLayout>
   );
 }
