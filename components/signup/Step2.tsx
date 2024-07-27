@@ -3,7 +3,7 @@ import Input from "../shared/Input";
 import { SignUpState } from "@/pages/onboarding";
 import OnBoardingLayout from "../layout/OnBoardingLayout";
 import Button from "../shared/Button";
-import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
+import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { GoArrowLeft } from "react-icons/go";
 import GoogleLoginButton from "../shared/GoogleLogin";
 
@@ -16,6 +16,7 @@ type Step2Props = {
 
 const Step2: React.FC<Step2Props> = ({ prev, next, change, state }) => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [showPassword, setShowPassword] = useState(false);
 
   const validatePasswordStrength = (password: string) => {
     const errors: string[] = [];
@@ -43,6 +44,10 @@ const Step2: React.FC<Step2Props> = ({ prev, next, change, state }) => {
     if (Object.keys(newErrors).length === 0) {
       next(e);
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -84,19 +89,31 @@ const Step2: React.FC<Step2Props> = ({ prev, next, change, state }) => {
             change={change}
             placeholder="Enter your email"
             required
-            icon={<FaEnvelope className="text-[gray]"/>}
+            icon={<FaEnvelope className="text-[gray]" />}
           />
           {errors.email && <p className="text-red-500">{errors.email}</p>}
-          <Input
-            label="Password"
-            name="password"
-            type="password"
-            value={state.password}
-            change={change}
-            placeholder="Enter your password"
-            required
-            icon = {<FaLock className="text-[gray]" />}
-          />
+          <div className="relative">
+            <Input
+              label="Password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              value={state.password}
+              change={change}
+              placeholder="Enter your password"
+              required
+              icon={<FaLock className="text-[gray]" />}
+            />
+            <div
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 pt-5"
+              onClick={togglePasswordVisibility}
+            >
+              {showPassword ? (
+                <FaEyeSlash className="text-gray-500 cursor-pointer " />
+              ) : (
+                <FaEye className="text-gray-500 cursor-pointer" />
+              )}
+            </div>
+          </div>
           {errors.password && <p className="text-red-500">{errors.password}</p>}
           
           <div className="mt-4 items-center">
@@ -109,11 +126,7 @@ const Step2: React.FC<Step2Props> = ({ prev, next, change, state }) => {
               isLoading={false}
             />
           </div>
-          <div className="flex py-4 justify-between">
-            <div className="border flex flex-col"></div>
-            <span>OR</span>
-            <div className="border border-b"></div>
-          </div>
+         
           <div className="flex justify-center py-4">
             <GoogleLoginButton />
           </div>

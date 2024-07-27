@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Image from "next/image";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,9 +9,18 @@ export default function Header() {
   };
 
   return (
-    <div className="fixed w-full bg-white top-0 left-0 shadow-lg z-50 pt-7 items-center">
-      <div className="flex justify-between text-sm py-2 gap-5 px-4 h-15 items-center">
-        <div className="">LOGO HERE</div>
+    <div className="fixed w-full bg-white top-0 left-0 shadow-lg z-50 pt-4 items-center">
+      <div className="flex justify-between text-sm  gap-5 px-4 h-15 items-center">
+        <div className="">
+        <Image
+        src="/logo.png"
+        alt="Logo"
+        width={100}
+        height={100}
+        className="rounded-full mx-auto"
+        layout="fixed"
+      />
+        </div>
         <div className="hidden md:flex">
           <ul className="flex justify-between gap-5 px-4">
             <li>HOME</li>

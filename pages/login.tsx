@@ -6,10 +6,12 @@ import OnBoardingLayout from "@/components/layout/OnBoardingLayout";
 import { useRouter } from "next/router";
 import GoogleLoginButton from "@/components/shared/GoogleLogin";
 import Swal from 'sweetalert2';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false); 
   const router = useRouter();
 
@@ -83,6 +85,10 @@ export default function LoginPage() {
     setPassword(e.target.value);
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <OnBoardingLayout>
       <div className="">
@@ -104,14 +110,26 @@ export default function LoginPage() {
               value={email}
               change={handleChangeEmail}
             />
-            <Input
-              label="Password"
-              name="password"
-              type="password"
-              placeholder="***********"
-              value={password}
-              change={handleChangePassword}
-            />
+            <div className="relative">
+              <Input
+                label="Password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="***********"
+                value={password}
+                change={handleChangePassword}
+              />
+              <div
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 pt-5"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? (
+                  <FaEyeSlash className="text-gray-500 cursor-pointer" />
+                ) : (
+                  <FaEye className="text-gray-500 cursor-pointer" />
+                )}
+              </div>
+            </div>
           </div>
           <div className="w-full mt-4">
             <Button 
