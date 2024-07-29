@@ -80,6 +80,9 @@ export default function AppointmentsPage() {
           <table className="min-w-full bg-white border border-gray-200 divide-y divide-gray-200 table-fixed">
             <thead className="bg-[white] text-center">
               <tr>
+                <th className="py-3 px-2 text-left text-xs md:text-[16px] leading-5 font-bold text-black">
+                  <input type="checkbox" />
+                </th>
                 <th className="py-3 px-2 text-left text-xs md:text-[16px] leading-5 font-bold text-black">Patient</th>
                 <th className="py-3 px-2 text-left text-xs md:text-[16px] leading-5 font-bold text-black">Date</th>
                 <th className="py-3 px-2 text-left text-xs md:text-[16px] leading-5 font-bold text-black">Time</th>
@@ -89,14 +92,20 @@ export default function AppointmentsPage() {
             <tbody>
               {filteredAppointments().length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="py-3 px-2 text-center text-gray-500 text-xs md:text-sm">
+                  <td colSpan={5} className="py-3 px-2 text-center text-gray-500 text-xs md:text-sm">
                     No appointments available
                   </td>
                 </tr>
               ) : (
                 filteredAppointments().map((appointment, index) => (
                   <tr key={index} className="hover:bg-gray-50">
-                    <td className="py-3 px-2 text-xs md:text-sm text-gray-700">{appointment.patient}</td>
+                    <td className="py-3 px-2 text-xs md:text-sm text-gray-700">
+                      <input type="checkbox" />
+                    </td>
+                    <td className="py-3 px-2 text-xs md:text-sm text-gray-700 flex items-center">
+                      <img src={appointment.image} alt={appointment.patient} className="w-8 h-8 rounded-full mr-2" />
+                      {appointment.patient}
+                    </td>
                     <td className="py-3 px-2 text-xs md:text-sm text-gray-700">{appointment.date}</td>
                     <td className="py-3 px-2 text-xs md:text-sm text-gray-700">{appointment.time}</td>
                     <td className={`py-3 px-2 text-xs md:text-[14px] font-bold ${appointment.status === 'Attended' ? 'text-white bg-green-600' : 'text-white bg-red-600'}`}>

@@ -58,7 +58,7 @@ const Layout = ({ children }) => {
          
         </div>
         <div className=" h-[calc(100vh-64px)] bg-white-100 p-4 rounded-lg overflow-y-scroll scrollbar-hidden">
-          <div className="">
+          {/* <div className="">
             <Modal action={action} open={open}>
               <div className="flex flex-col gap-6  md:p-4">
                 <div className=" font-semibold text-xl md:text-3xl text-[#0065C2]">
@@ -80,7 +80,7 @@ const Layout = ({ children }) => {
                 </div>
               </div>
             </Modal>
-          </div>
+          </div> */}
           {children}
         </div>
       </div>

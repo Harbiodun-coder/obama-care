@@ -4,25 +4,29 @@
       "patient": "Samuel Nnamdi Jim",
       "date": "2024-07-26",
       "time": "10:00 AM",
-      "status": "Attended"
+      "status": "Attended",
+      "image": "/avatars.png"
     },
     {
       "patient": "Matthew",
       "date": "2024-07-25",
       "time": "02:00 PM",
-      "status": "Attended"
+      "status": "Attended",
+      "image": "/avatars.png"
     },
     {
       "patient": "Jim",
       "date": "2024-07-25",
       "time": "02:00 PM",
-      "status": "Attended"
+      "status": "Attended",
+      "image": "/avatars.png"
     },
     {
       "patient": "Rodney",
       "date": "2024-07-25",
       "time": "02:00 PM",
-      "status": "Attended"
+      "status": "Attended",
+      "image": "/avatars.png"
     }
   ],
   "nonAttended": [
@@ -30,25 +34,29 @@
       "patient": "Samuel",
       "date": "2024-07-24",
       "time": "11:00 AM",
-      "status": "Not Attended"
+      "status": "Not Attended",
+      "image": "/avatars.png"
     },
     {
       "patient": "Matthew",
       "date": "2024-07-23",
       "time": "01:00 PM",
-      "status": "Not Attended"
+      "status": "Not Attended",
+      "image": "/avatars.png"
     },
     {
       "patient": "Jim",
       "date": "2024-07-23",
       "time": "01:00 PM",
-      "status": "Not Attended"
+      "status": "Not Attended",
+      "image": "/avatars.png"
     },
     {
       "patient": "Rodney",
       "date": "2024-07-23",
       "time": "01:00 PM",
-      "status": "Not Attended"
+      "status": "Not Attended",
+      "image": "/avatars.png"
     }
   ]
 }

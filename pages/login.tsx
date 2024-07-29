@@ -40,7 +40,7 @@ export default function LoginPage() {
       const data = await response.json();
       const { email, role, jwt_token } = data.data; 
       
-      localStorage.setItem('token', jwt_token);
+      localStorage.setItem('obamacare', jwt_token);
 
       if (!email || !role) {
         throw new Error('Invalid response data');
@@ -54,9 +54,9 @@ export default function LoginPage() {
       });
 
       if (role === 'doctor') {
-        router.push('/dashboard/doctor');
+        router.push('/doctor/dashboard');
       } else if (role === 'patient') {
-        router.push('/dashboard/patient');
+        router.push('/patient/dashboard');
       } else {
         Swal.fire({
           title: 'Error',
