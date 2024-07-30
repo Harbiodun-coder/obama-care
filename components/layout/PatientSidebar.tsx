@@ -46,7 +46,7 @@ export default function Sidebar() {
     },
     {
       icon: <HiOutlineUsers />,
-      name: "Medical Records",
+      name: "Medical History",
       path: `/patient/medical`,
     },
     {
