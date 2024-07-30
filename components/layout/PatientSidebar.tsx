@@ -36,7 +36,7 @@ export default function Sidebar() {
     {
       icon: <RxDashboard />,
       name: "Dashboard",
-      path: `/dashboard/patient`,
+      path: `/patient/dashboard`,
     },
 
     {
