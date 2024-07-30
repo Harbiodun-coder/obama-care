@@ -4,7 +4,7 @@ import React from 'react'
 export default function dashboard() {
   return (
     <Layout>
-    <div>
+    <div className='p-4'>
       patient dashboard
     </div>
     </Layout>

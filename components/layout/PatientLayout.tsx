@@ -4,29 +4,31 @@ import { CiSearch } from "react-icons/ci";
 import { IoMdNotificationsOutline } from "react-icons/io";
 
 import { useRouter } from "next/router";
-import Button from "../shared/Button";
+
+
+
+
 import Hamburger2 from "./Hamburger2";
-import Modal from "../shared/BookAppointmentModal";
 
 
 
 const Layout = ({ children }) => {
-  const [open, setOpen] = useState(Boolean);
-  const action = () => {
-    setOpen(false);
-  };
+  
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  
   const router = useRouter();
  
-
-  const handleLogout = () => {
- 
-    console.log("User Logged Out");
+  const handleProfileClick = () => {
+    setProfileDropdownOpen(!profileDropdownOpen);
+    
   };
+
+  const profileOptions = ["Profile", "Logout"];
 
   return (
     <div className="flex h-screen overflow-hidden ">
       <div className="md:w-1/4  ">
-        <Hamburger2  />
+        <Hamburger2   />
       </div>
 
       <div className="w-full overflow-y-scroll bg-white-100">
@@ -44,6 +46,7 @@ const Layout = ({ children }) => {
             {/* Render icons only on larger screens */}
             <div className="hidden md:flex w-10 h-10 items-center justify-center bg-[#F0F2F5] rounded-[50%] ">
               <IoMdNotificationsOutline className="h-6 w-6 text-[#475367]" />
+              
             </div>
 
             <div className="hidden md:block">
@@ -51,35 +54,28 @@ const Layout = ({ children }) => {
                 src="/Avatars.png"
                 alt="Image"
                 className="w-10 h-10 rounded-full"
+                onClick={handleProfileClick}
               />
+               {profileDropdownOpen && (
+                <div className="absolute z-50 right-0 mt-2 rounded-lg bg-white-100 shadow-lg py-1 px-2">
+                  <ul>
+                    {profileOptions.map((option, index) => (
+                      <li
+                        key={index}
+                        className="block font-medium px-4 py-1 hover:bg-blue-600 hover:text-blue-100 cursor-pointer"
+                      >
+                        {option}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
          
         </div>
         <div className=" h-[calc(100vh-64px)] bg-white-100 p-4 rounded-lg overflow-y-scroll scrollbar-hidden">
-          {/* <div className="">
-            <Modal action={action} open={open}>
-              <div className="flex flex-col gap-6  md:p-4">
-                <div className=" font-semibold text-xl md:text-3xl text-[#0065C2]">
-                  Do You Want to Log out?
-                </div>
-                <div className=" grid grid-cols-2 gap-2">
-                  <Button
-                    intent="primary"
-                    size="sm"
-                    text="Yes"
-                    isLoading = {false}
-                                />
-                  <Button
-                    intent="primary"
-                    size="sm"
-                    text="No"
-                    isLoading = {false}
-                                   />
-                </div>
-              </div>
-            </Modal>
-          </div> */}
+       
           {children}
         </div>
       </div>
