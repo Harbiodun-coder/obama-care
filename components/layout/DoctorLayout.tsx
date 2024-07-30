@@ -6,7 +6,7 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { useRouter } from "next/router";
 import Button from "../shared/Button";
 
-import Modal from "../shared/Modal";
+import Modal from "../shared/BookAppointmentModal";
 import Hamburger from "./Hamburger";
 
 
