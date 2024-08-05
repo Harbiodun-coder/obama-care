@@ -1,0 +1,38 @@
+{
+    "appointments": [
+      {
+        "id": 1,
+        "doctorName": "Samuel Jim",
+        "specialty": "Medicine General",
+        "date": "2024-07-04",
+        "time": "16:00",
+        "duration": "45.00min",
+        "reviews": 65,
+        "rating": 4,
+        "imageUrl": "/1.jpg"
+      },
+      {
+        "id": 1,
+        "doctorName": "Samuel Jim",
+        "specialty": "Medicine General",
+        "date": "2024-07-04",
+        "time": "16:00",
+        "duration": "45.00min",
+        "reviews": 65,
+        "rating": 4,
+        "imageUrl": "/1.jpg"
+      },
+      {
+        "id": 1,
+        "doctorName": "Samuel Jim",
+        "specialty": "Medicine General",
+        "date": "2024-07-04",
+        "time": "16:00",
+        "duration": "45.00min",
+        "reviews": 65,
+        "rating": 4,
+        "imageUrl": "/1.jpg"
+      }
+    ]
+  }
+  

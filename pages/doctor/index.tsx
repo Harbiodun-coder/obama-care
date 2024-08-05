@@ -1,6 +1,5 @@
 // pages/doctor.tsx
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
 import AppointmentCard from '@/components/card/AppointmentCard';
 import Layout from '@/components/layout/DoctorLayout';
 import Calendar from '@/components/card/Calender';
@@ -14,21 +13,45 @@ interface AppointmentProps {
   type: 'new' | 'upcoming';
 }
 
-const appointments: AppointmentProps[] = [
-  { patientName: 'SAMUEL BONU', date: '2024-07-25', time: '10:00 AM', type: 'new' },
-  { patientName: 'FRANCIS MATTHEW', date: '2024-07-26', time: '02:00 PM', type: 'upcoming' },
-  { patientName: 'MATT', date: '2024-07-26', time: '02:00 PM', type: 'upcoming' },
-  { patientName: 'METRO', date: '2024-07-26', time: '02:00 PM', type: 'new' },
-
-];
-
-const tasks: { task: string; dueDate: string; status: 'pending' | 'completed' }[] = [
-  { task: 'Prepare for weekly team meeting', dueDate: '2024-07-30', status: 'pending' },
-  { task: 'Review patient files', dueDate: '2024-08-01', status: 'completed' },
-  { task: 'Update patient records', dueDate: '2024-08-05', status: 'pending' },
-];
+interface TaskProps {
+  task: string;
+  dueDate: string;
+  status: 'pending' | 'completed';
+}
 
 const Doctor: React.FC = () => {
+  const [appointments, setAppointments] = useState<AppointmentProps[]>([]);
+  const [tasks, setTasks] = useState<TaskProps[]>([]);
+ 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const appointmentsResponse = await fetch('/api/appointments');
+        if (!appointmentsResponse.ok) {
+          throw new Error('Failed to fetch appointments');
+        }
+        const appointmentsData: AppointmentProps[] = await appointmentsResponse.json();
+        setAppointments(appointmentsData);
+
+        const tasksResponse = await fetch('/api/tasks');
+        if (!tasksResponse.ok) {
+          throw new Error('Failed to fetch tasks');
+        }
+        const tasksData: TaskProps[] = await tasksResponse.json();
+        setTasks(tasksData);
+      } catch (error) {
+        console.log(error.message);
+      } finally {
+        console.log(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  
+
   return (
     <Layout>
       <div className='w-full h-full'>
@@ -52,14 +75,14 @@ const Doctor: React.FC = () => {
             <div>
               <h2 className="text-xl font-bold">Tasks</h2>
               <div className="flex flex-col gap-3">
-              {tasks.map((task, index) => (
-                <TaskCard
-                  key={index}
-                  task={task.task}
-                  dueDate={task.dueDate}
-                  status={task.status}
-                />
-              ))}
+                {tasks.map((task, index) => (
+                  <TaskCard
+                    key={index}
+                    task={task.task}
+                    dueDate={task.dueDate}
+                    status={task.status}
+                  />
+                ))}
               </div>
             </div>
           </div>

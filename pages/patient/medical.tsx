@@ -1,73 +1,92 @@
+import React, { useState, useEffect } from 'react';
 import Layout from '@/components/layout/PatientLayout';
-import React, { useState } from 'react';
 import { FaDownload, FaPrint } from 'react-icons/fa';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
-const medicalRecords = [
-  {
-    id: 1,
-    date: '2024-07-10',
-    type: 'General Checkup',
-    description: 'Routine checkup with Dr. Smith.',
-    details: 'Detailed notes from the visit...'
-  },
-  {
-    id: 2,
-    date: '2024-06-15',
-    type: 'Follow-up',
-    description: 'Follow-up visit for recent surgery.',
-    details: 'Detailed notes from the visit...'
-  },
-  {
-    id: 3,
-    date: '2024-06-15',
-    type: 'Follow-up',
-    description: 'Follow-up visit for recent surgery.',
-    details: 'Detailed notes from the visit...'
-  },
-  {
-    id: 4,
-    date: '2024-06-15',
-    type: 'Follow-up',
-    description: 'Follow-up visit for recent surgery.',
-    details: 'Detailed notes from the visit...'
-  },
-];
+interface MedicalRecord {
+  id: number;
+  date: string;
+  type: string;
+  description: string;
+  details: string;
+}
 
-const downloadRecords = () => {
-  const blob = new Blob([JSON.stringify(medicalRecords, null, 2)], { type: 'text/plain' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'medical_history.pdf';
-  a.click();
-  URL.revokeObjectURL(url);
-};
-
-const printRecords = () => {
-  const printWindow = window.open('', '', 'height=600,width=800');
-  printWindow?.document.write('<html><head><title>Medical History</title>');
-  printWindow?.document.write('<style>body { font-family: Arial, sans-serif; margin: 20px; } h1, h2, h3 { color: #333; } p { color: #666; }</style>');
-  printWindow?.document.write('</head><body >');
-  printWindow?.document.write('<h1>Medical History</h1>');
-  medicalRecords.forEach(record => {
-    printWindow?.document.write(`<h2>${record.type}</h2>`);
-    printWindow?.document.write(`<p><strong>Date:</strong> ${record.date}</p>`);
-    printWindow?.document.write(`<p><strong>Description:</strong> ${record.description}</p>`);
-    printWindow?.document.write(`<p><strong>Details:</strong> ${record.details}</p>`);
-    printWindow?.document.write('<hr>');
-  });
-  printWindow?.document.write('</body></html>');
-  printWindow?.document.close();
-  printWindow?.focus();
-  printWindow?.print();
-};
-
-const MedicalHistory = () => {
+const MedicalHistory: React.FC = () => {
+  const [medicalRecords, setMedicalRecords] = useState<MedicalRecord[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedRecord, setSelectedRecord] = useState<number | null>(null);
+
+  useEffect(() => {
+    const fetchMedicalRecords = async () => {
+      try {
+        const response = await fetch('/medical.json', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`, 
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch medical records');
+        }
+
+        const data = await response.json();
+        setMedicalRecords(data.medicalRecords); 
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMedicalRecords();
+  }, []);
+
+  const downloadRecords = () => {
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text('Medical History', 14, 22);
+
+    doc.setFontSize(12);
+    medicalRecords.forEach((record, index) => {
+      doc.text(`Type: ${record.type}`, 14, 30 + (index * 60));
+      doc.text(`Date: ${record.date}`, 14, 36 + (index * 60));
+      doc.text(`Description: ${record.description}`, 14, 42 + (index * 60));
+      doc.text(`Details: ${record.details}`, 14, 48 + (index * 60));
+      doc.text('----------------------------------', 14, 54 + (index * 60));
+    });
+
+    doc.save('medical_history.pdf');
+  };
+
+  const printRecords = () => {
+    const printWindow = window.open('', '', 'height=600,width=800');
+    printWindow?.document.write('<html><head><title>Medical History</title>');
+    printWindow?.document.write('<style>body { font-family: Arial, sans-serif; margin: 20px; } h1, h2, h3 { color: #333; } p { color: #666; }</style>');
+    printWindow?.document.write('</head><body >');
+    printWindow?.document.write('<h1>Medical History</h1>');
+    medicalRecords.forEach(record => {
+      printWindow?.document.write(`<h2>${record.type}</h2>`);
+      printWindow?.document.write(`<p><strong>Date:</strong> ${record.date}</p>`);
+      printWindow?.document.write(`<p><strong>Description:</strong> ${record.description}</p>`);
+      printWindow?.document.write(`<p><strong>Details:</strong> ${record.details}</p>`);
+      printWindow?.document.write('<hr>');
+    });
+    printWindow?.document.write('</body></html>');
+    printWindow?.document.close();
+    printWindow?.focus();
+    printWindow?.print();
+  };
 
   const handleRecordClick = (id: number) => {
     setSelectedRecord(id === selectedRecord ? null : id);
   };
+
+ 
 
   return (
     <Layout>

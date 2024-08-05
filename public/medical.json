@@ -1,0 +1,33 @@
+{
+    "medicalRecords": [
+      {
+        "id": 1,
+        "date": "2024-07-10",
+        "type": "General Checkup",
+        "description": "Routine checkup with Dr. Smith.",
+        "details": "Detailed notes from the visit..."
+      },
+      {
+        "id": 2,
+        "date": "2024-07-10",
+        "type": "General Checkup",
+        "description": "Routine checkup with Dr. Smith.",
+        "details": "Detailed notes from the visit..."
+      },
+      {
+        "id": 3,
+        "date": "2024-07-10",
+        "type": "General Checkup",
+        "description": "Routine checkup with Dr. Smith.",
+        "details": "Detailed notes from the visit..."
+      },
+      {
+        "id": 4,
+        "date": "2024-07-10",
+        "type": "General Checkup",
+        "description": "Routine checkup with Dr. Smith.",
+        "details": "Detailed notes from the visit..."
+      }
+    ]
+  }
+  

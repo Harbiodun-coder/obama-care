@@ -51,7 +51,7 @@ const Layout = ({ children }) => {
 
             <div className="hidden md:block">
               <img
-                src="/Avatars.png"
+                src="/patient.png"
                 alt="Image"
                 className="w-10 h-10 rounded-full"
                 onClick={handleProfileClick}

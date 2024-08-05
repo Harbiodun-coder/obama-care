@@ -54,9 +54,9 @@ export default function LoginPage() {
       });
 
       if (role === 'doctor') {
-        router.push('/doctor/dashboard');
+        router.push('/doctor');
       } else if (role === 'patient') {
-        router.push('/patient/dashboard');
+        router.push('/patient');
       } else {
         Swal.fire({
           title: 'Error',

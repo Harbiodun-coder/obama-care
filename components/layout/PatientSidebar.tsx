@@ -34,15 +34,9 @@ export default function Sidebar() {
   
   const nav = [
     {
-      icon: <RxDashboard />,
-      name: "Dashboard",
-      path: `/patient/dashboard`,
-    },
-
-    {
       icon: <FaList />,
-      name: "Appointments",
-      path: `/patient/appointment`,
+      name: "Dashboard",
+      path: `/patient`,
     },
     {
       icon: <HiOutlineUsers />,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import AppointmentCard from './AppointmentCard';
 import dayjs from 'dayjs';
 
@@ -14,61 +14,47 @@ interface Appointment {
   imageUrl: string;
 }
 
-const appointments: Appointment[] = [
-  {
-    id: 1,
-    doctorName: 'Samuel Jim',
-    specialty: 'Medicine General',
-    date: '2024-07-04',
-    time: '16:00',
-    duration: '45.00min',
-    reviews: 65,
-    rating: 4,
-    imageUrl: '/1.jpg',
-  },
-  {
-    id: 2,
-    doctorName: 'Samuel Bonu',
-    specialty: 'Cardiology',
-    date: '2024-04-28',
-    time: '16:00',
-    duration: '45.00min',
-    reviews: 65,
-    rating: 4,
-    imageUrl: '/2.jpg',
-  },
-  {
-    id: 3,
-    doctorName: 'Francis Matthew',
-    specialty: 'Psycology',
-    date: '2024-05-15',
-    time: '16:00',
-    duration: '45.00min',
-    reviews: 65,
-    rating: 4,
-    imageUrl: '/3.jpg',
-  },
-  {
-    id: 3,
-    doctorName: 'Matthew Abiodun',
-    specialty: 'Optician',
-    date: '2024-05-15',
-    time: '16:00',
-    duration: '45.00min',
-    reviews: 65,
-    rating: 4,
-    imageUrl: '/3.jpg',
-  },
-];
-
 const AppointmentsList: React.FC = () => {
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      try {
+        const response = await fetch('/appointment.json', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`, 
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch appointments');
+        }
+
+        const data = await response.json();
+        setAppointments(data.appointments); 
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAppointments();
+  }, []);
+
   const today = dayjs();
 
+  
   const sortedAppointments = appointments.sort((a, b) => dayjs(a.date).diff(dayjs(b.date)));
+
+ 
 
   return (
     <div className="">
-     
       {sortedAppointments.length > 0 ? (
         sortedAppointments.map(appointment => (
           <AppointmentCard key={appointment.id} appointment={appointment} />
