@@ -4,7 +4,7 @@ import BookAppointmentModal from "@/components/shared/BookAppointmentModal";
 import Button from "@/components/shared/Button";
 import React, { useState } from "react";
 
-export default function index() {
+export default function Index() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -25,7 +25,7 @@ export default function index() {
     console.log("Appointment Data:", appointmentData);
   
     try {
-      const response = await fetch('/api/appointments', {
+      const response = await fetch('/api/patient/appointment', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
