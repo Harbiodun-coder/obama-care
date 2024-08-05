@@ -1,40 +1,45 @@
-import React, { useState, useEffect } from "react";
-import Layout from "@/components/layout/DoctorLayout";
-import Image from "next/image";
 
-export default function ProfilePage() {
-  const [profile, setProfile] = useState<{
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    specialty: string;
-  }>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    specialty: "",
+import Layout from '@/components/layout/DoctorLayout';
+import React, { useState, useEffect } from 'react';
+import { FaEdit, FaSave, FaTimes, FaUpload } from 'react-icons/fa';
+
+const Profile = () => {
+  const [profile, setProfile] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    specialty: '',
+    officeAddress: '',
+    bio: '',
+    profileImage: '',
   });
+  const [formData, setFormData] = useState(profile);
+  const [isEditing, setIsEditing] = useState(false);
+  const [image, setImage] = useState<File | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchProfile = async () => {
     try {
-      const response = await fetch("/mockUserData.json", {
-        method: "GET",
+      const response = await fetch('/api/doctor/profile', {
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error('Failed to fetch profile');
       }
 
       const data = await response.json();
-      setProfile(data.profile || {});
+      setProfile(data.profile);
+      setFormData(data.profile);
     } catch (error) {
-      console.log("Failed to fetch profile");
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -42,51 +47,191 @@ export default function ProfilePage() {
     fetchProfile();
   }, []);
 
+  const handleSaveClick = async () => {
+    try {
+      const updatedProfile = {
+        ...formData,
+        profileImage: image ? URL.createObjectURL(image) : profile.profileImage,
+      };
+
+      const response = await fetch('/api/doctor/profile', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(updatedProfile),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update profile');
+      }
+
+      const data = await response.json();
+      setProfile(data.profile);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsEditing(false);
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prevData => ({ ...prevData, [name]: value }));
+  };
+
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null;
+    if (file) {
+      setImage(file);
+
+    }
+  };
+
+  const handleCancelClick = () => {
+    setFormData(profile);
+    setImage(null);
+    setIsEditing(false);
+  };
+
   return (
     <Layout>
-      <div className="p-4">
-        <h1 className="text-2xl font-bold mb-4">Profile</h1>
+      <div className="bg-white p-4 shadow rounded">
+        <div className="flex flex-col md:flex-row items-center mb-6">
+          <div className="relative">
+            <img
+              src={image ? URL.createObjectURL(image) : profile.profileImage}
+              alt="Profile"
+              className="w-24 h-24 rounded-full object-cover mb-4 md:mb-0 md:mr-6"
+            />
+            {isEditing && (
+              <label
+                htmlFor="profileImage"
+                className="absolute bottom-0 right-0 bg-blue-600 text-white p-1 rounded-full cursor-pointer"
+              >
+                <FaUpload />
+                <input
+                  type="file"
+                  id="profileImage"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageChange}
+                />
+              </label>
+            )}
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold">{profile.name}</h1>
+            {isEditing ? (
+              <div className="flex items-center mt-4 space-x-2">
+                <button
+                  onClick={handleSaveClick}
+                  className="bg-blue-600 text-white px-4 py-2 rounded flex items-center"
+                >
+                  <FaSave className="mr-2" /> Save
+                </button>
+                <button
+                  onClick={handleCancelClick}
+                  className="bg-gray-600 text-white px-4 py-2 rounded flex items-center"
+                >
+                  <FaTimes className="mr-2" /> Cancel
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setIsEditing(true)}
+                className="bg-yellow-600 text-white px-4 py-2 rounded flex items-center mt-4"
+              >
+                <FaEdit className="mr-2" /> Edit
+              </button>
+            )}
+          </div>
+        </div>
 
-        <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4">
-          {/* Profile Picture and Name Section */}
-          <div className="flex-none w-auto lg:w-1/3 flex flex-col items-center p-4 bg-white border border-gray-200 rounded-lg shadow-lg">
-            <Image src="/tes1.jpg" width={100} height={100} alt="LOGO" className="h-24 w-24 rounded-full" />
-            <div className="text-center md:pt-4">
-              <h2 className="text-xl font-semibold">
-                {profile.firstName} {profile.lastName}
-              </h2>
-              <p className="text-lg text-gray-500">{profile.specialty}</p>
+        <div className="space-y-6">
+          <div>
+            <h2 className="text-xl font-semibold mb-2">Personal Information</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-gray-700">Email</label>
+                {isEditing ? (
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="mt-1 p-2 border border-gray-300 rounded w-full"
+                  />
+                ) : (
+                  <p>{profile.email}</p>
+                )}
+              </div>
+              <div>
+                <label className="block text-gray-700">Phone</label>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    className="mt-1 p-2 border border-gray-300 rounded w-full"
+                  />
+                ) : (
+                  <p>{profile.phone}</p>
+                )}
+              </div>
+              <div>
+                <label className="block text-gray-700">Specialty</label>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    name="specialty"
+                    value={formData.specialty}
+                    onChange={handleInputChange}
+                    className="mt-1 p-2 border border-gray-300 rounded w-full"
+                  />
+                ) : (
+                  <p>{profile.specialty}</p>
+                )}
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-gray-700">Office Address</label>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    name="officeAddress"
+                    value={formData.officeAddress}
+                    onChange={handleInputChange}
+                    className="mt-1 p-2 border border-gray-300 rounded w-full"
+                  />
+                ) : (
+                  <p>{profile.officeAddress}</p>
+                )}
+              </div>
             </div>
           </div>
 
-          {/* Personal Information Section */}
-          <div className="flex-1 bg-white p-4 border border-gray-200 rounded-lg shadow-lg">
-            <h2 className="text-xl font-semibold mb-4">Personal Information</h2>
-            <div className="space-y-4">
-              <div>
-                <strong className="text-sm lg:text-base">First Name:</strong>
-                <p className="text-sm lg:text-base">{profile.firstName}</p>
-              </div>
-              <div>
-                <strong className="text-sm lg:text-base">Last Name:</strong>
-                <p className="text-sm lg:text-base">{profile.lastName}</p>
-              </div>
-              <div>
-                <strong className="text-sm lg:text-base">Email:</strong>
-                <p className="text-sm lg:text-base">{profile.email}</p>
-              </div>
-              <div>
-                <strong className="text-sm lg:text-base">Phone:</strong>
-                <p className="text-sm lg:text-base">{profile.phone}</p>
-              </div>
-              <div>
-                <strong className="text-sm lg:text-base">Specialty:</strong>
-                <p className="text-sm lg:text-base">{profile.specialty}</p>
-              </div>
+          <div>
+            <h2 className="text-xl font-semibold mb-2">Bio</h2>
+            <div>
+              {isEditing ? (
+                <textarea
+                  name="bio"
+                  value={formData.bio}
+                  onChange={handleInputChange}
+                  className="mt-1 p-2 border border-gray-300 rounded w-full"
+                  rows={4}
+                />
+              ) : (
+                <p>{profile.bio}</p>
+              )}
             </div>
           </div>
         </div>
       </div>
     </Layout>
   );
-}
+};
+
+export default Profile;

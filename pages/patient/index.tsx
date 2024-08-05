@@ -23,6 +23,7 @@ export default function Index() {
     patientLocation: string;
   }) => {
     console.log("Appointment Data:", appointmentData);
+    console.log("Appointment Data:", appointmentData);
   
     try {
       const response = await fetch('/api/patient/appointment', {

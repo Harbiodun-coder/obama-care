@@ -10,7 +10,7 @@ const initialProfile = {
   medicalConditions: 'Malaria',
   allergies: 'None',
   medications: 'None',
-  profileImage: '/patient.png', // Initial profile image
+  profileImage: '/patient.png', 
 };
 
 const Profile = () => {
@@ -25,7 +25,7 @@ const Profile = () => {
 
   const handleCancelClick = () => {
     setFormData(profile);
-    setImage(null); // Reset the image input
+    setImage(null); 
     setIsEditing(false);
   };
 
@@ -33,7 +33,7 @@ const Profile = () => {
     setProfile(prevProfile => ({
       ...prevProfile,
       ...formData,
-      profileImage: image ? URL.createObjectURL(image) : prevProfile.profileImage, // Update profile image
+      profileImage: image ? URL.createObjectURL(image) : prevProfile.profileImage, 
     }));
     setIsEditing(false);
   };
