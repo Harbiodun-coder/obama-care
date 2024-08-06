@@ -3,6 +3,8 @@ import Layout from '@/components/layout/PatientLayout';
 import { FaDownload, FaPrint } from 'react-icons/fa';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import Link from 'next/link';
+import { IoMdArrowRoundBack } from 'react-icons/io';
 
 interface MedicalRecord {
   id: number;
@@ -91,8 +93,14 @@ const MedicalHistory: React.FC = () => {
   return (
     <Layout>
       <div className="bg-white p-4 shadow rounded w-full">
+      <div className="container  py-4 flex justify-between  items-center">
+          <Link href="/patient" className="text-blue-600 hover:underline">
+            <IoMdArrowRoundBack className="w-[100px] " />
+          </Link>
+          <h1 className="text-2xl font-bold text-blue-600">Medical History</h1>
+        </div>
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
-          <h2 className="text-2xl font-bold mb-4 sm:mb-0 text-[#0065C2]">Medical History</h2>
+         
           <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
             <button
               onClick={downloadRecords}

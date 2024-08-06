@@ -1,7 +1,9 @@
 
 import Layout from '@/components/layout/DoctorLayout';
+import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { FaEdit, FaSave, FaTimes, FaUpload } from 'react-icons/fa';
+import { IoMdArrowRoundBack } from 'react-icons/io';
 
 const Profile = () => {
   const [profile, setProfile] = useState({
@@ -98,6 +100,12 @@ const Profile = () => {
   return (
     <Layout>
       <div className="bg-white p-4 shadow rounded">
+      <div className="container  py-4 flex justify-between items-center">
+          <Link href="/doctor" className="text-blue-600 hover:underline">
+            <IoMdArrowRoundBack className="w-[100px] " />
+          </Link>
+          <h1 className="text-2xl font-bold text-blue-600">Profile</h1>
+        </div>
         <div className="flex flex-col md:flex-row items-center mb-6">
           <div className="relative">
             <img
