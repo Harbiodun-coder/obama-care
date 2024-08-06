@@ -1,4 +1,4 @@
-// pages/doctor.tsx
+
 import React, { useState, useEffect } from 'react';
 import AppointmentCard from '@/components/card/AppointmentCard';
 import Layout from '@/components/layout/DoctorLayout';
