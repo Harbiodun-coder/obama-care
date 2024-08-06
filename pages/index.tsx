@@ -1,16 +1,16 @@
 import Head from 'next/head';
-import Header from '@/components/Header';
-import Banner from '@/components/Banner';
-import FeatureSection from '@/components/FeatureSection';
-import ServiceArea from '@/components/ServiceArea';
-import AboutArea from '@/components/AboutArea';
-import TeamArea from '@/components/TeamArea';
-import TestimonialItem from '@/components/TestimonialItem';
-import Hotline from '@/components/Hotline';
-import BlogArea from '@/components/BlogArea';
-import BrandArea from '@/components/BrandArea';
-import Footer from '@/components/Footer';
-import AppointmentSection from '@/components/Appointment';
+import Header from '@/components/home/Header';
+import Banner from '@/components/home/Banner';
+import FeatureSection from '@/components/home/FeatureSection';
+import ServiceArea from '@/components/home/ServiceArea';
+import AboutArea from '@/components/home/AboutArea';
+import TeamArea from '@/components/home/TeamArea';
+import TestimonialItem from '@/components/home/TestimonialItem';
+import Hotline from '@/components/home/Hotline';
+import BlogArea from '@/components/home/BlogArea';
+import BrandArea from '@/components/home/BrandArea';
+import Footer from '@/components/home/Footer';
+import AppointmentSection from '@/components/home/Appointment';
 
 
 export default function Home() {
