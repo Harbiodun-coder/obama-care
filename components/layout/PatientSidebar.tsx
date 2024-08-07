@@ -38,11 +38,11 @@ export default function Sidebar() {
       name: "Dashboard",
       path: `/patient`,
     },
-    {
-      icon: <HiOutlineUsers />,
-      name: "Medical History",
-      path: `/patient/medical`,
-    },
+    // {
+    //   icon: <HiOutlineUsers />,
+    //   name: "Medical History",
+    //   path: `/patient/medical`,
+    // },
     {
       icon: <IoPersonCircleOutline />,
       name: "Profile",
