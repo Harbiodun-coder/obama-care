@@ -1,4 +1,3 @@
-
 import Layout from '@/components/layout/DoctorLayout';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
@@ -14,6 +13,7 @@ const Profile = () => {
     officeAddress: '',
     bio: '',
     profileImage: '',
+    isAvailable: false,
   });
   const [formData, setFormData] = useState(profile);
   const [isEditing, setIsEditing] = useState(false);
@@ -56,7 +56,7 @@ const Profile = () => {
         profileImage: image ? URL.createObjectURL(image) : profile.profileImage,
       };
 
-      const response = await fetch('/api/doctor/profile', {
+      const response = await fetch('/api/doctor/update-profile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -87,7 +87,6 @@ const Profile = () => {
     const file = e.target.files ? e.target.files[0] : null;
     if (file) {
       setImage(file);
-
     }
   };
 
@@ -97,12 +96,16 @@ const Profile = () => {
     setIsEditing(false);
   };
 
+  const handleToggleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData(prevData => ({ ...prevData, isAvailable: e.target.checked }));
+  };
+
   return (
     <Layout>
       <div className="bg-white p-4 shadow rounded">
-      <div className="container  py-4 flex justify-between items-center">
+        <div className="container py-4 flex justify-between items-center">
           <Link href="/doctor" className="text-blue-600 hover:underline">
-            <IoMdArrowRoundBack className="w-[100px] " />
+            <IoMdArrowRoundBack className="w-[100px]" />
           </Link>
           <h1 className="text-2xl font-bold text-blue-600">Profile</h1>
         </div>
@@ -233,6 +236,26 @@ const Profile = () => {
                 />
               ) : (
                 <p>{profile.bio}</p>
+              )}
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-xl font-semibold mb-2">Active Status</h2>
+            <div>
+              {isEditing ? (
+                <label className="flex items-center mt-1">
+                  <input
+                    type="checkbox"
+                    name="isAvailable"
+                    checked={formData.isAvailable}
+                    onChange={handleToggleChange}
+                    className="mr-2"
+                  />
+                  Active
+                </label>
+              ) : (
+                <p>{profile.isAvailable ? 'Active' : 'Inactive'}</p>
               )}
             </div>
           </div>

@@ -5,24 +5,24 @@ import Input from './Input';
 interface BookAppointmentModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (appointmentData: { date: string; time: string; illness: string; symptoms: string; patientLocation: string }) => void;
+  onSubmit: (appointmentData: { preferred_date: string;  illness: string; symptoms: string[]; patient_location: string }) => void;
 }
 
 const BookAppointmentModal: React.FC<BookAppointmentModalProps> = ({ isOpen, onClose, onSubmit }) => {
-  const [date, setDate] = useState('');
-  const [time, setTime] = useState('');
+  const [preferred_date, setPreferredDate] = useState('');
+ 
   const [illness, setIllness] = useState('');
   const [symptoms, setSymptoms] = useState('');
-  const [patientLocation, setPatientLocation] = useState('');
+  const [patient_location, setPatientLocation] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   if (!isOpen) return null;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    if (name === 'date') setDate(value);
-    if (name === 'time') setTime(value);
-    if (name === 'patientLocation') setPatientLocation(value);
+    if (name === 'preferred_date') setPreferredDate(value);
+ 
+    if (name === 'patient_location') setPatientLocation(value);
     if (name === 'illness') setIllness(value);
     if (name === 'symptoms') setSymptoms(value);
   };
@@ -31,16 +31,15 @@ const BookAppointmentModal: React.FC<BookAppointmentModalProps> = ({ isOpen, onC
     e.preventDefault();
     setIsLoading(true);
     try {
-      await onSubmit({ date, time, patientLocation, illness, symptoms });
-      setDate('');
-      setTime('');
+      await onSubmit({ preferred_date,  patient_location, illness, symptoms: symptoms.split(', ') });
+      setPreferredDate('');
       setIllness('');
       setSymptoms('');
       setPatientLocation('');
       onClose();
     } catch (error) {
       console.error('Error submitting appointment:', error);
-      // Handle error appropriately
+      
     } finally {
       setIsLoading(false);
     }
@@ -52,21 +51,14 @@ const BookAppointmentModal: React.FC<BookAppointmentModalProps> = ({ isOpen, onC
         <h2 className="text-xl font-semibold mb-4">Book an Appointment</h2>
         <form onSubmit={handleSubmit}>
           <Input
-            label="Date"
-            name="date"
+            label="Preferred Date"
+            name="preferred_date"
             type="date"
-            value={date}
+            value={preferred_date}
             change={handleChange}
             required
           />
-          <Input
-            label="Time"
-            name="time"
-            type="time"
-            value={time}
-            change={handleChange}
-            required
-          />
+         
           <Input
             label="Illness"
             name="illness"
@@ -76,7 +68,7 @@ const BookAppointmentModal: React.FC<BookAppointmentModalProps> = ({ isOpen, onC
             required
           />
           <Input
-            label="Symptoms"
+            label="Symptoms (comma separated)"
             name="symptoms"
             type="text"
             value={symptoms}
@@ -85,9 +77,9 @@ const BookAppointmentModal: React.FC<BookAppointmentModalProps> = ({ isOpen, onC
           />
           <Input
             label="Preferred Location"
-            name="patientLocation"
+            name="patient_location"
             type="text"
-            value={patientLocation}
+            value={patient_location}
             change={handleChange}
             required
           />

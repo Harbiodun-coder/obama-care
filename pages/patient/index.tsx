@@ -15,37 +15,36 @@ export default function Index() {
     setIsModalOpen(false);
   };
 
-  const handleSubmitAppointment = async (appointmentData: {
-    date: string;
-    time: string;
-    illness: string;
-    symptoms: string;
-    patientLocation: string;
-  }) => {
+  const handleSubmitAppointment = async (appointmentData) => {
     console.log("Appointment Data:", appointmentData);
-    console.log("Appointment Data:", appointmentData);
-  
+    const token = localStorage.getItem('obamacare');
+    if (!token) {
+      console.error('No token found');
+      return;
+    }
+
     try {
-      const response = await fetch('/api/patient/appointment', {
+      const response = await fetch('/api/patient/appointment', { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(appointmentData),
       });
-  
+
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-  
+
       const data = await response.json();
       console.log('API Response:', data);
-      
+
     } catch (error) {
       console.error('API Error:', error);
     }
   };
-  
+
   return (
     <Layout>
       <div className="container mx-auto md:p-4 scrollbar-hidden">
