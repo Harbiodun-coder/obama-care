@@ -3,6 +3,7 @@ import AppointmentList from "@/components/shared/AppointmentList";
 import BookAppointmentModal from "@/components/shared/BookAppointmentModal";
 import Button from "@/components/shared/Button";
 import React, { useState } from "react";
+import Swal from "sweetalert2";
 
 export default function Index() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,6 +37,12 @@ export default function Index() {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
+      Swal.fire({
+        title: 'Success',
+        text: 'Appointment booked succesful',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
 
       const data = await response.json();
       console.log('API Response:', data);
@@ -49,7 +56,7 @@ export default function Index() {
     <Layout>
       <div className="container mx-auto md:p-4 scrollbar-hidden">
         <div className="flex md:justify-between md:items-center mb-8 gap-10 ">
-          <div className="md:text-2xl md:font-semibold text-[11px] font-normal ">Welcome Matthew,</div>
+          <div className="md:text-2xl md:font-semibold text-[11px] font-normal ">Welcome,</div>
 
           <div className="">
             <Button
