@@ -3,17 +3,17 @@ import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { FaEdit, FaSave, FaTimes, FaUpload } from 'react-icons/fa';
 import { IoMdArrowRoundBack } from 'react-icons/io';
+import Swal from 'sweetalert2';
 
 const Profile = () => {
   const [profile, setProfile] = useState({
-    name: '',
+    first_name: '',
+    last_name: '',
     email: '',
     phone: '',
-    specialty: '',
-    officeAddress: '',
-    bio: '',
-    profileImage: '',
-    isAvailable: false,
+    specialty: [],
+    available_times: '',
+    availability: false,
   });
   const [formData, setFormData] = useState(profile);
   const [isEditing, setIsEditing] = useState(false);
@@ -22,12 +22,17 @@ const Profile = () => {
   const [error, setError] = useState<string | null>(null);
 
   const fetchProfile = async () => {
+    const token = localStorage.getItem('obamacare');
+    if (!token) {
+      console.error('Token not found');
+      return;
+    }
     try {
       const response = await fetch('/api/doctor/profile', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -36,8 +41,8 @@ const Profile = () => {
       }
 
       const data = await response.json();
-      setProfile(data.profile);
-      setFormData(data.profile);
+      setProfile(data.data);
+      setFormData(data.data);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -49,18 +54,22 @@ const Profile = () => {
     fetchProfile();
   }, []);
 
-  const handleSaveClick = async () => {
+  const updateProfile = async () => {
+    const token = localStorage.getItem('obamacare');
+    if (!token) {
+      console.error('Token not found');
+      return;
+    }
     try {
       const updatedProfile = {
         ...formData,
-        profileImage: image ? URL.createObjectURL(image) : profile.profileImage,
       };
 
       const response = await fetch('/api/doctor/update-profile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(updatedProfile),
       });
@@ -70,7 +79,15 @@ const Profile = () => {
       }
 
       const data = await response.json();
-      setProfile(data.profile);
+      Swal.fire({
+        title: 'Success',
+        text: 'Profile Updated Successfully',
+        icon: 'success',
+        confirmButtonText: 'OK',
+      });
+
+      setProfile(data.data);
+      setFormData(data.data);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -83,21 +100,17 @@ const Profile = () => {
     setFormData(prevData => ({ ...prevData, [name]: value }));
   };
 
-  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files ? e.target.files[0] : null;
-    if (file) {
-      setImage(file);
-    }
-  };
+  
 
   const handleCancelClick = () => {
     setFormData(profile);
     setImage(null);
     setIsEditing(false);
   };
-
   const handleToggleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prevData => ({ ...prevData, isAvailable: e.target.checked }));
+    const isChecked = e.target.checked;
+    setFormData(prevData => ({ ...prevData, availability: isChecked }));
+    console.log('availability', isChecked);  
   };
 
   return (
@@ -112,32 +125,17 @@ const Profile = () => {
         <div className="flex flex-col md:flex-row items-center mb-6">
           <div className="relative">
             <img
-              src={image ? URL.createObjectURL(image) : profile.profileImage}
+              src="/patient.png"
               alt="Profile"
               className="w-24 h-24 rounded-full object-cover mb-4 md:mb-0 md:mr-6"
             />
-            {isEditing && (
-              <label
-                htmlFor="profileImage"
-                className="absolute bottom-0 right-0 bg-blue-600 text-white p-1 rounded-full cursor-pointer"
-              >
-                <FaUpload />
-                <input
-                  type="file"
-                  id="profileImage"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={handleImageChange}
-                />
-              </label>
-            )}
           </div>
           <div>
-            <h1 className="text-2xl font-bold">{profile.name}</h1>
+            <h1 className="text-2xl font-bold">Dr. {profile?.first_name} {profile?.last_name}</h1>
             {isEditing ? (
               <div className="flex items-center mt-4 space-x-2">
                 <button
-                  onClick={handleSaveClick}
+                  onClick={updateProfile}
                   className="bg-blue-600 text-white px-4 py-2 rounded flex items-center"
                 >
                   <FaSave className="mr-2" /> Save
@@ -175,7 +173,7 @@ const Profile = () => {
                     className="mt-1 p-2 border border-gray-300 rounded w-full"
                   />
                 ) : (
-                  <p>{profile.email}</p>
+                  <p>{profile?.email}</p>
                 )}
               </div>
               <div>
@@ -189,7 +187,7 @@ const Profile = () => {
                     className="mt-1 p-2 border border-gray-300 rounded w-full"
                   />
                 ) : (
-                  <p>{profile.phone}</p>
+                  <p>{profile?.phone}</p>
                 )}
               </div>
               <div>
@@ -203,59 +201,45 @@ const Profile = () => {
                     className="mt-1 p-2 border border-gray-300 rounded w-full"
                   />
                 ) : (
-                  <p>{profile.specialty}</p>
+                  <p>{profile?.specialty?.join(', ')}</p>
                 )}
               </div>
-              <div className="md:col-span-2">
-                <label className="block text-gray-700">Office Address</label>
+              <div>
+                <label className="block text-gray-700">Available</label>
                 {isEditing ? (
                   <input
                     type="text"
-                    name="officeAddress"
-                    value={formData.officeAddress}
+                    name="specialty"
+                    value={formData.available_times}
                     onChange={handleInputChange}
                     className="mt-1 p-2 border border-gray-300 rounded w-full"
                   />
                 ) : (
-                  <p>{profile.officeAddress}</p>
+                  <p>{profile?.available_times}</p>
                 )}
               </div>
             </div>
           </div>
 
-          <div>
-            <h2 className="text-xl font-semibold mb-2">Bio</h2>
-            <div>
-              {isEditing ? (
-                <textarea
-                  name="bio"
-                  value={formData.bio}
-                  onChange={handleInputChange}
-                  className="mt-1 p-2 border border-gray-300 rounded w-full"
-                  rows={4}
-                />
-              ) : (
-                <p>{profile.bio}</p>
-              )}
-            </div>
-          </div>
+         
 
           <div>
             <h2 className="text-xl font-semibold mb-2">Active Status</h2>
             <div>
               {isEditing ? (
-                <label className="flex items-center mt-1">
+                <label className="flex bg-blue-800 cursor-pointer relative w-[80px] h-[40px] rounded-full  ">
                   <input
                     type="checkbox"
                     name="isAvailable"
-                    checked={formData.isAvailable}
+                    checked={formData.availability}
                     onChange={handleToggleChange}
-                    className="mr-2"
+                    className=" sr-only peer "
                   />
-                  Active
+                  <span className="w-2/5 h-4/5 bg-gray-400  absolute rounded-full left-1 top-1 peer-checked:bg-[white] peer-checked:left-11 transition-all duration-500" />
+                 
                 </label>
               ) : (
-                <p>{profile.isAvailable ? 'Active' : 'Inactive'}</p>
+                <p>{profile.availability ? 'Active' : 'Inactive'}</p>
               )}
             </div>
           </div>
