@@ -2,11 +2,20 @@ import Layout from "@/components/layout/PatientLayout";
 import AppointmentList from "@/components/shared/AppointmentList";
 import BookAppointmentModal from "@/components/shared/BookAppointmentModal";
 import Button from "@/components/shared/Button";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 export default function Index() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [profile, setProfile] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone: '',
+    country: '',
+  });
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -15,6 +24,40 @@ export default function Index() {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
+  const fetchProfile = async () => {
+    const token = localStorage.getItem('obamacare');
+    if (!token) {
+      console.error('Token not found');
+      return;
+    }
+    try {
+      const response = await fetch('/api/patient/profile', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch profile');
+      }
+      const data = await response.json();
+      console.log('Fetched data:', data);
+
+      setProfile(data.data);
+    } catch (error) {
+      setError(error.message);
+      console.error('Error fetching profile:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    console.log('Fetching profile...');
+    fetchProfile();
+  }, []);
 
   const handleSubmitAppointment = async (appointmentData) => {
     console.log("Appointment Data:", appointmentData);
@@ -56,7 +99,7 @@ export default function Index() {
     <Layout>
       <div className="container mx-auto md:p-4 scrollbar-hidden">
         <div className="flex md:justify-between md:items-center mb-8 gap-10 ">
-          <div className="md:text-2xl md:font-semibold text-[11px] font-normal ">Welcome,</div>
+          <div className="md:text-2xl md:font-semibold text-[11px] font-normal ">{profile?.first_name} {profile?.last_name}</div>
 
           <div className="">
             <Button

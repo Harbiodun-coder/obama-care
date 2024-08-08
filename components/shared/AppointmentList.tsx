@@ -22,7 +22,7 @@ const AppointmentsList: React.FC = () => {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await fetch('/appointment.json', {
+        const response = await fetch('/api/patient/appointment', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
