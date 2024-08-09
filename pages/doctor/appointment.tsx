@@ -18,12 +18,17 @@ export default function AppointmentsPage() {
   );
 
   const fetchAppointments = async () => {
+    const token = localStorage.getItem("obamacare");
+      if (!token) {
+        console.error("Token not found");
+        return;
+      }
     try {
-      const response = await fetch("/mockAppointments.json", {
+      const response = await fetch("/api/doctor/dashboard", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -32,12 +37,25 @@ export default function AppointmentsPage() {
       }
 
       const data = await response.json();
-      setAppointments({
-        attended: data.attended || [],
-        nonAttended: data.nonAttended || [],
+      console.log(data)
+
+      const appointments = data.data.appointments || [];
+
+      const attendedAppointments = appointments.filter(
+        (appointment) => appointment.status === "1"
+      );
+  
+      const nonAttendedAppointments = appointments.filter(
+        (appointment) => appointment.status !== "1"
+      );
+
+
+       setAppointments({
+        attended: attendedAppointments,
+        nonAttended: nonAttendedAppointments,
       });
     } catch (error) {
-      console.log("Failed to fetch appointments");
+      console.log(error);
     }
   };
 
@@ -99,20 +117,18 @@ export default function AppointmentsPage() {
         </div>
 
         <div className="overflow-x-auto mt-4 border border-[white] rounded-lg shadow-md">
-          <table className="min-w-full bg-white border border-gray-200 divide-y divide-gray-200 table-fixed">
-            <thead className="bg-[white] text-center">
+          <table className="min-w-full bg-white border border-gray-200 divide-y divide-gray-200 table-fixed ">
+            <thead className=" bg-blue-100 text-center ">
               <tr>
+               
                 <th className="py-3 px-2 text-left text-xs md:text-[16px] leading-5 font-bold text-black">
-                  <input type="checkbox" />
-                </th>
-                <th className="py-3 px-2 text-left text-xs md:text-[16px] leading-5 font-bold text-black">
-                  Patient
+                  Patient Name
                 </th>
                 <th className="py-3 px-2 text-left text-xs md:text-[16px] leading-5 font-bold text-black">
                   Date
                 </th>
                 <th className="py-3 px-2 text-left text-xs md:text-[16px] leading-5 font-bold text-black">
-                  Time
+                  Illness
                 </th>
                 <th className="py-3 px-2 text-left text-xs md:text-[16px] leading-5 font-bold text-black w-28">
                   Status
@@ -132,22 +148,19 @@ export default function AppointmentsPage() {
               ) : (
                 filteredAppointments().map((appointment, index) => (
                   <tr key={index} className="hover:bg-gray-50">
-                    <td className="py-3 px-2 text-xs md:text-sm text-gray-700">
-                      <input type="checkbox" />
-                    </td>
                     <td className="py-3 px-2 text-xs md:text-sm text-gray-700 flex items-center">
                       <img
-                        src={appointment.image}
+                        src="/patient.png"
                         alt={appointment.patient}
                         className="w-8 h-8 rounded-full mr-2"
                       />
-                      {appointment.patient}
+                      {appointment.patient_name}
                     </td>
                     <td className="py-3 px-2 text-xs md:text-sm text-gray-700">
-                      {appointment.date}
+                      {appointment.selected_date}
                     </td>
                     <td className="py-3 px-2 text-xs md:text-sm text-gray-700">
-                      {appointment.time}
+                      {appointment.illness}
                     </td>
                     <td
                       className={`py-3 px-2 text-xs md:text-[14px] font-bold ${
@@ -156,7 +169,7 @@ export default function AppointmentsPage() {
                           : "text-white bg-red-600"
                       }`}
                     >
-                      {appointment.status}
+                      {appointment.status === "1" ? "Attended" : "Not Attended"}
                     </td>
                   </tr>
                 ))

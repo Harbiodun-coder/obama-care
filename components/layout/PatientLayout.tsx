@@ -2,13 +2,9 @@
 import React, { useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { IoMdNotificationsOutline } from "react-icons/io";
-
 import { useRouter } from "next/router";
-
-
-
-
 import Hamburger2 from "./Hamburger2";
+import Swal from "sweetalert2";
 
 
 
@@ -18,9 +14,35 @@ const Layout = ({ children }) => {
   
   const router = useRouter();
  
-  const handleProfileClick = () => {
-    setProfileDropdownOpen(!profileDropdownOpen);
-    
+  const handleProfileClick = (option?: string) => {
+    if (option) {
+      setProfileDropdownOpen(false);
+      if (option === "Profile") {
+        router.push("/patient/profile");
+      } else if (option === "Logout") {
+        handleLogout();
+      }
+    } else {
+      setProfileDropdownOpen(!profileDropdownOpen);
+    }
+  };
+  const handleLogout = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to log out?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, log out!",
+      cancelButtonText: "No, cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
+        router.push("/login");
+      }
+    });
   };
 
   const profileOptions = ["Profile", "Logout"];
@@ -54,7 +76,7 @@ const Layout = ({ children }) => {
                 src="/patient.png"
                 alt="Image"
                 className="w-10 h-10 rounded-full"
-                onClick={handleProfileClick}
+                onClick={() => handleProfileClick()}
               />
                {profileDropdownOpen && (
                 <div className="absolute z-50 right-0 mt-2 rounded-lg bg-white-100 shadow-lg py-1 px-2">
@@ -63,6 +85,7 @@ const Layout = ({ children }) => {
                       <li
                         key={index}
                         className="block font-medium px-4 py-1 hover:bg-blue-600 hover:text-blue-100 cursor-pointer"
+                        onClick={() => handleProfileClick(option)}
                       >
                         {option}
                       </li>

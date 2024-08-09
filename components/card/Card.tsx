@@ -1,5 +1,5 @@
 import React from "react";
-import { FaUserInjured, FaCalendarCheck, FaCommentMedical } from "react-icons/fa"; // Example icons for patients, appointments, and consultations
+import { FaUserInjured, FaCalendarCheck, FaCommentMedical } from "react-icons/fa"; 
 import { cva, VariantProps } from "class-variance-authority";
 
 const inputStyles = cva("text-lg md:text-2xl rounded-full flex justify-center items-center p-1", {

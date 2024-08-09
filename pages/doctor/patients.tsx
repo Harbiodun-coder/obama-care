@@ -46,8 +46,9 @@ const PatientsTable: React.FC<PatientsTableProps> = ({ doctorId }) => {
           </Link>
           <h1 className="text-2xl font-bold text-blue-600">Patients</h1>
         </div>
+        <div className="overflow-x-auto mt-4 border border-[white] rounded-lg shadow-md">
         <table className="min-w-full bg-white border border-gray-200 divide-y divide-gray-200 table-fixed">
-          <thead className="bg-gray-50">
+          <thead className="bg-blue-100  text-center">
             <tr>
               <th className="py-2 px-2 md:px-4 text-left text-xs md:text-sm font-bold text-gray-700">
                 Patient
@@ -106,6 +107,7 @@ const PatientsTable: React.FC<PatientsTableProps> = ({ doctorId }) => {
             )}
           </tbody>
         </table>
+        </div>
       </div>
     </Layout>
   );
