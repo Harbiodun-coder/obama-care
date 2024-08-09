@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import Swal from "sweetalert2";
 import Layout from "@/components/layout/DoctorLayout";
 import Calendar from "@/components/card/Calender";
 import Card from "@/components/card/Card";
+import { FaCheck, FaTimes } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 interface AppointmentProps {
   approved: string;
@@ -65,37 +67,12 @@ const Doctor: React.FC = () => {
     fetchData();
   }, []);
 
-  const handleAppointmentClick = (appointment: AppointmentProps) => {
-    Swal.fire({
-      title: "Appointment Details",
-      html: `
-        <p><strong>Patient:</strong> ${appointment.patient_name}</p>
-        <p><strong>Date:</strong> ${appointment.selected_date}</p>
-        <p><strong>Illness:</strong> ${appointment.illness}</p>
-        <p><strong>Symptoms:</strong> ${appointment.symptoms.join(", ")}</p>
-      `,
-      showCancelButton: true,
-      confirmButtonText: "Approve",
-      cancelButtonText: "Decline",
-      icon: "info",
-      customClass: {
-        popup: 'p-4 ',
-      },
-    }).then((result) => {
-      if (result.isConfirmed) {
-        handleApprove(appointment);
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        handleDecline(appointment);
-      }
-    });
-  };
-
   const handleApprove = (appointment: AppointmentProps) => {
-    console.log("Approved:", appointment);
+    toast.success(`You approved the appointment with ${appointment.patient_name}`);
   };
 
   const handleDecline = (appointment: AppointmentProps) => {
-    console.log("Declined:", appointment);
+    toast.error(`You declined the appointment with ${appointment.patient_name}`);
   };
 
   return (
@@ -121,18 +98,28 @@ const Doctor: React.FC = () => {
                 <div
                   key={index}
                   className="bg-white p-6 shadow-lg border border-gray-200 rounded-lg flex flex-col gap-4 hover:shadow-xl transition-shadow cursor-pointer"
-                  onClick={() => handleAppointmentClick(appointment)}
                 >
-                  <div className="">
-                    <img
-                      src="/patient.png"
-                      alt=""
-                      className="w-[50px] h-[50px] rounded-full justify-self-center"
-                    />
-                    <h3 className="text-2xl font-semibold text-gray-800">
-                      {" "}
-                      {appointment.patient_name}
-                    </h3>
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-4">
+                      <img
+                        src="/patient.png"
+                        alt=""
+                        className="w-[50px] h-[50px] rounded-full"
+                      />
+                      <h3 className="text-2xl font-semibold text-gray-800">
+                        {appointment.patient_name}
+                      </h3>
+                    </div>
+                    <div className="flex gap-4">
+                      <FaCheck
+                        className="text-green-500 cursor-pointer"
+                        onClick={() => handleApprove(appointment)}
+                      />
+                      <FaTimes
+                        className="text-red-500 cursor-pointer"
+                        onClick={() => handleDecline(appointment)}
+                      />
+                    </div>
                   </div>
                   <div className="flex flex-col">
                     <p className="text-lg font-medium text-gray-600">
@@ -172,6 +159,7 @@ const Doctor: React.FC = () => {
             <Calendar />
           </div>
         </div>
+        <ToastContainer />
       </div>
     </Layout>
   );
